@@ -9,11 +9,12 @@ public class Play {
 	    {
 
 	    	JFrame frame = new JFrame("Mario Experience Showcase");
-	    	MarioComponent mario = new MarioComponent(640, 480,false);
+	    	//MarioComponent mario = new MarioComponent(640, 480,false);
+	    	MarioComponentRecording mario = new MarioComponentRecording(640, 480,false);
 
 	    	frame.setContentPane(mario);
 	    	frame.setResizable(false);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	        frame.pack();
 
 	        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

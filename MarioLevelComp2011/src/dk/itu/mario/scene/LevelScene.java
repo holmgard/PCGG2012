@@ -13,25 +13,13 @@ import java.util.*;
 import dk.itu.mario.engine.Art;
 import dk.itu.mario.engine.BgRenderer;
 import dk.itu.mario.engine.DataRecorder;
+import dk.itu.mario.engine.IMarioComponent;
 import dk.itu.mario.engine.LevelRenderer;
-import dk.itu.mario.engine.MarioComponent;
 import dk.itu.mario.level.Level;
 import dk.itu.mario.level.RandomLevel;
 
 import dk.itu.mario.engine.sonar.FixedSoundSource;
 import dk.itu.mario.engine.sprites.*;
-import dk.itu.mario.engine.sprites.BulletBill;
-import dk.itu.mario.engine.sprites.CoinAnim;
-import dk.itu.mario.engine.sprites.FireFlower;
-import dk.itu.mario.engine.sprites.Fireball;
-import dk.itu.mario.engine.sprites.Mario;
-import dk.itu.mario.engine.sprites.Mushroom;
-import dk.itu.mario.engine.sprites.Particle;
-import dk.itu.mario.engine.sprites.Shell;
-import dk.itu.mario.engine.sprites.Sparkle;
-import dk.itu.mario.engine.sprites.Sprite;
-import dk.itu.mario.engine.sprites.SpriteContext;
-import dk.itu.mario.engine.sprites.SpriteTemplate;
 
 
 public class LevelScene extends Scene implements SpriteContext
@@ -60,7 +48,7 @@ public class LevelScene extends Scene implements SpriteContext
     //    private Replayer replayer = null;
 
     protected long levelSeed;
-    protected MarioComponent marioComponent;
+    protected IMarioComponent marioComponent;
     protected int levelType;
     protected int levelDifficulty;
 
@@ -74,8 +62,11 @@ public class LevelScene extends Scene implements SpriteContext
     private int []yPositionsArrow;
     private int widthArrow,heightArrow,tipWidthArrow;
     private int xArrow,yArrow;
+    
+    public static final int TPS = 24; // Ticks per second
+    public static final int LVLT = 200; // Level time
 
-    public LevelScene(GraphicsConfiguration graphicsConfiguration, MarioComponent renderer, long seed, int levelDifficulty, int type)
+    public LevelScene(GraphicsConfiguration graphicsConfiguration, IMarioComponent renderer, long seed, int levelDifficulty, int type)
     {
         this.graphicsConfiguration = graphicsConfiguration;
         this.levelSeed = seed;
@@ -385,7 +376,7 @@ public class LevelScene extends Scene implements SpriteContext
         drawStringDropShadow(g, " "+Mario.levelString, 24, 1, 7);
 
         drawStringDropShadow(g, "TIME", 35, 0, 7);
-        int time = (timeLeft+15-1)/15;
+        int time = (timeLeft+TPS-1)/TPS;
         if (time<0) time = 0;
         drawStringDropShadow(g, " "+df2.format(time), 35, 1, 7);
 
@@ -481,7 +472,7 @@ public class LevelScene extends Scene implements SpriteContext
         sprites.add(mario);
         startTime = 1;
 
-        timeLeft = 200*15;
+        timeLeft = LVLT*TPS;
         Art.startMusic(1);
         tick = 0;
 //        recorder = new DataRecorder(this,level,keys,gametype);

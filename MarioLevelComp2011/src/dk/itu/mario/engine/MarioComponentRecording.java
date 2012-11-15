@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.awt.image.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -25,13 +26,19 @@ import dk.itu.mario.scene.LoseScene;
 import dk.itu.mario.scene.Scene;
 import dk.itu.mario.scene.WinScene;
 
+import dk.itu.mario.engine.recorder.ScreenRecorder;
 import dk.itu.mario.engine.sonar.FakeSoundEngine;
 import dk.itu.mario.engine.sonar.SonarSoundEngine;
 import dk.itu.mario.engine.sprites.Mario;
 
-public class MarioComponent extends JComponent implements Runnable, KeyListener, FocusListener, MouseListener, IMarioComponent
+public class MarioComponentRecording extends JComponent implements Runnable, KeyListener, FocusListener, MouseListener, IMarioComponent
 	{
 		    private static final long serialVersionUID = 739318775993206607L;
+
+		    public static final int TICKS_PER_SECOND = 24;
+
+		    public static final int EVOLVE_VERSION = 4;
+		    public static final int GAME_VERSION = 4;
 
 		    private boolean running = false;
 		    private int width, height;
@@ -46,8 +53,10 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		    private Scale2x scale2x = new Scale2x(320, 240);
 
 		    private double openTime;
+		    
+		    private ScreenRecorder screenRecorder;
 
-		    public MarioComponent(int width, int height,boolean isCustomized){
+		    public MarioComponentRecording(int width, int height,boolean isCustomized){	    	
 		    	addFocusListener(this);
 		    	addMouseListener(this);
 		    	addKeyListener(this);
@@ -116,6 +125,9 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 
 		        if (isPressed && keyCode == KeyEvent.VK_ESCAPE){
 		        	try{
+		        		//screenRecorder.finishMovie();
+		        		running = false;
+		        		
 		        		System.exit(1);
 		        	}catch(Exception e){
 		        		System.out.println("Unable to exit.");
@@ -123,44 +135,34 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		        }
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#paint(java.awt.Graphics)
-			 */
 		    public void paint(Graphics g){
 		    	super.paint(g);
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#update(java.awt.Graphics)
-			 */
 		    public void update(Graphics g)
 		    {
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#start()
-			 */
 		    public void start()
 		    {
 		        if (!running)
 		        {
 		            running = true;
+		            
+		            //screenRecorder = new ScreenRecorder();
+		            
 		            new Thread(this, "Game Thread").start();
 		        }
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#stop()
-			 */
 		    public void stop()
 		    {
+		    	screenRecorder.finishMovie();
+		    	
 		        Art.stopMusic();
 		        running = false;
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#run()
-			 */
 		    public void run()
 		    {
 
@@ -191,6 +193,8 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 
 		        float correction = 0f;
 		        if(System.getProperty("os.name") == "Mac OS X");
+		        
+		        screenRecorder = new ScreenRecorder();
 
 		        while (running)
 		        {
@@ -265,6 +269,14 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		            {
 		                g.drawImage(image, 0, 0, null);
 		            }
+		            
+		            if (scene instanceof LevelScene) {
+		            	LevelScene s = (LevelScene)(scene);
+		            	int t = s.LVLT * s.TPS;
+		            	t -= s.timeLeft;
+		            	screenRecorder.addFrame(image, (long)(time * 1000000000), t);
+		            } else
+		            	screenRecorder.addFrame(image, System.nanoTime() - startTime, -1);
 
 		            renderedFrames++;
 
@@ -276,6 +288,8 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		            {
 		            }
 		        }
+		        
+		        screenRecorder.finishMovie();
 
 		        Art.stopMusic();
 		    }
@@ -289,60 +303,46 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		        }
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#keyPressed(java.awt.event.KeyEvent)
-			 */
 		    public void keyPressed(KeyEvent arg0)
 		    {
 		        toggleKey(arg0.getKeyCode(), true);
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#keyReleased(java.awt.event.KeyEvent)
-			 */
 		    public void keyReleased(KeyEvent arg0)
 		    {
 		        toggleKey(arg0.getKeyCode(), false);
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#keyTyped(java.awt.event.KeyEvent)
-			 */
 		    public void keyTyped(KeyEvent arg0)
 		    {
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#focusGained(java.awt.event.FocusEvent)
-			 */
 		    public void focusGained(FocusEvent arg0)
 		    {
 		        focused = true;
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#focusLost(java.awt.event.FocusEvent)
-			 */
 		    public void focusLost(FocusEvent arg0)
 		    {
 		    	focused = false;
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#levelWon()
-			 */
 		    public void levelWon()
 		    {
 
 		    }
 
 
+		    public static final int OPTIMIZED_FIRST = 0;
+		    public static final int MINIMIZED_FIRST = 1;
+
+
 		    private LevelScene randomLevel;
 
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#toRandomGame()
-			 */
+		    /**
+		     * Part of the fun increaser
+		     */
 		    public void toRandomGame(){
 		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,false);
 
@@ -357,9 +357,6 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#toCustomGame()
-			 */
 		    public void toCustomGame(){
 
 		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,true);
@@ -375,18 +372,12 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#lose()
-			 */
 		    public void lose(){
 		        scene = new LoseScene();
 		        scene.setSound(sound);
 		        scene.init();
 		    }
 
-		    /* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#win()
-			 */
 		    public void win(){
 		        scene = new WinScene();
 		        scene.setSound(sound);
@@ -395,36 +386,21 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 
 
 
-			/* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#mouseClicked(java.awt.event.MouseEvent)
-			 */
 			public void mouseClicked(MouseEvent e) {
 			}
 
-			/* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#mouseEntered(java.awt.event.MouseEvent)
-			 */
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 			}
 
-			/* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#mouseExited(java.awt.event.MouseEvent)
-			 */
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
 			}
 
-			/* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#mousePressed(java.awt.event.MouseEvent)
-			 */
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 			}
 
-			/* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#mouseReleased(java.awt.event.MouseEvent)
-			 */
 			public void mouseReleased(MouseEvent e) {
 
 				while(!hasFocus()){
@@ -433,18 +409,14 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 				}
 			}
 
-			/* (non-Javadoc)
-			 * @see dk.itu.mario.engine.IMarioComponent#getPreferredSize()
+			/**
+			 * Must return the actual fill of the viewable components
 			 */
 			public Dimension getPreferredSize(){
 				return new Dimension(width,height);
 			}
-
-
-
-
-
-
-
-
+			
+//			protected void processWindowEvent(WindowEvent e) {
+//				if (e.)
+//			}
 }

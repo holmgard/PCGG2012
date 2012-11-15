@@ -20,8 +20,8 @@ import dk.itu.mario.engine.util.FileHandler;
 import dk.itu.mario.engine.Art;
 import dk.itu.mario.engine.BgRenderer;
 import dk.itu.mario.engine.DataRecorder;
+import dk.itu.mario.engine.IMarioComponent;
 import dk.itu.mario.engine.LevelRenderer;
-import dk.itu.mario.engine.MarioComponent;
 import dk.itu.mario.level.CustomizedLevel;
 import dk.itu.mario.level.Level;
 import dk.itu.mario.level.RandomLevel;
@@ -39,7 +39,7 @@ import dk.itu.mario.res.ResourcesManager;
 
 
 			public LevelSceneTest(GraphicsConfiguration graphicsConfiguration,
-					MarioComponent renderer, long seed, int levelDifficulty, int type,boolean isCustom){
+					IMarioComponent renderer, long seed, int levelDifficulty, int type,boolean isCustom){
 				super(graphicsConfiguration,renderer,seed,levelDifficulty,type);
 				this.isCustom = isCustom;
 			}
@@ -101,7 +101,7 @@ import dk.itu.mario.res.ResourcesManager;
 		        sprites.add(mario);
 		        startTime = 1;
 
-		        timeLeft = 200*15;
+		        timeLeft = LVLT*TPS;
 
 		        tick = 0;
 

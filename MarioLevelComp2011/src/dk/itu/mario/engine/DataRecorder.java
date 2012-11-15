@@ -30,6 +30,8 @@ public class DataRecorder {
 	private int timeStart, timeEnd;
 	private int completionTime; //counts only the current run on the level, excluding death games
 	private int totalTime; //sums all the time, including from previous games if player died
+	
+	private final int LT; // The total time to complete a level
 
 	/**
 	 * Jump variables to record
@@ -113,6 +115,8 @@ public class DataRecorder {
 		this.levelScene = levelScene;
 		this.level = level;
 		this.keys = keys;
+		
+		LT = levelScene.LVLT * levelScene.TPS;
 
 		keyPressed = new boolean[keys.length];
 
@@ -206,7 +210,7 @@ public class DataRecorder {
 	public void startTime(){
 		if(timeStopped == true){
 			timeStopped = false;
-			timeStart = 2982 - levelScene.timeLeft;
+			timeStart = LT - levelScene.timeLeft;
 			detailedLog += "StartTime = "+ timeStart;
 			detailedLog += "\n";
 		}
@@ -219,7 +223,7 @@ public class DataRecorder {
 		if(timeStopped == false){
 			timeStopped = true;
 
-			timeEnd = 2982 - levelScene.timeLeft;
+			timeEnd = LT - levelScene.timeLeft;
 			totalTime += timeEnd-timeStart;
 
 			completionTime = timeEnd-timeStart;
@@ -271,28 +275,30 @@ public class DataRecorder {
 	}
 
 	public void startRightMoveRecord(){
-		startRightTime = 2982 - levelScene.timeLeft;
+		startRightTime = LT - levelScene.timeLeft;
 		direction = 1;
 	}
 
 	public void startLeftMoveRecord(){
-		startLeftTime = 2982 - levelScene.timeLeft;
+		startLeftTime = LT - levelScene.timeLeft;
 		direction = -1;
 	}
 
 	public void endRightMoveRecord(){
-		endRightTime = 2982 - levelScene.timeLeft;
+		endRightTime = LT - levelScene.timeLeft;
 
 		totalRightTime += endRightTime - startRightTime;
-		detailedLog += "RightMove: StTime = "+startRightTime +" EdTime = "+totalRightTime;
+		//detailedLog += "RightMove: StTime = "+startRightTime +" EdTime = "+totalRightTime;
+		detailedLog += "RightMove: StTime = "+startRightTime +" EdTime = "+endRightTime;
 		detailedLog += "\n";
 	}
 
 	public void endLeftMoveRecord(){
-		endLeftTime = 2982 - levelScene.timeLeft;
+		endLeftTime = LT - levelScene.timeLeft;
 
 		totalLeftTime += endLeftTime - startLeftTime;
-		detailedLog += "LeftMove: StTime = "+startLeftTime +" EdTime = "+totalLeftTime;
+		//detailedLog += "LeftMove: StTime = "+startLeftTime +" EdTime = "+totalLeftTime;
+		detailedLog += "LeftMove: StTime = "+startLeftTime +" EdTime = "+endLeftTime;
 		detailedLog += "\n";
 
 	}
@@ -301,7 +307,7 @@ public class DataRecorder {
 		if(!levelScene.mario.ducking){
 			timesDucked++;
 
-			startDuckTime = 2982 - levelScene.timeLeft;
+			startDuckTime = LT - levelScene.timeLeft;
 
 			System.out.println("START DUCK");
 		}
@@ -309,7 +315,7 @@ public class DataRecorder {
 
 	public void endDuckRecord(){
 		if(levelScene.mario.ducking){
-			endDuckTime = 2982 - levelScene.timeLeft;
+			endDuckTime = LT - levelScene.timeLeft;
 
 			totalDuckTime += endDuckTime - startDuckTime;
 
@@ -333,7 +339,7 @@ public class DataRecorder {
 
 			System.out.println("------------------- "+switchedPower+" -------------------");
 
-			startLittleTime = 2982 - levelScene.timeLeft;
+			startLittleTime = LT - levelScene.timeLeft;
 
 			System.out.println("LITTLE START: " + startLittleTime);
 		}
@@ -342,7 +348,7 @@ public class DataRecorder {
 	public void endLittleRecord(){
 		if(littleRecording){
 			littleRecording = false;
-			endLittleTime = 2982 - levelScene.timeLeft;
+			endLittleTime = LT - levelScene.timeLeft;
 
 			totalLittleTime += endLittleTime - startLittleTime;
 
@@ -359,13 +365,13 @@ public class DataRecorder {
 
 		System.out.println("------------------- "+switchedPower+" -------------------");
 
-		startLargeTime = 2982 - levelScene.timeLeft;
+		startLargeTime = LT - levelScene.timeLeft;
 
 		System.out.println("LARGE START");
 	}
 
 	public void endLargeRecord(){
-		endLargeTime = 2982 - levelScene.timeLeft;
+		endLargeTime = LT - levelScene.timeLeft;
 
 		totalLargeTime += endLargeTime - startLargeTime;
 
@@ -382,13 +388,13 @@ public class DataRecorder {
 
 		System.out.println("------------------- "+switchedPower+" -------------------");
 
-		startFireTime = 2982 - levelScene.timeLeft;
+		startFireTime = LT - levelScene.timeLeft;
 
 		System.out.println("FIRE START");
 	}
 
 	public void endFireRecord(){
-		endFireTime = 2982 - levelScene.timeLeft;
+		endFireTime = LT - levelScene.timeLeft;
 
 		totalFireTime += endFireTime - startFireTime;
 
@@ -401,7 +407,7 @@ public class DataRecorder {
 		if(!levelScene.mario.running){
 			timesRun++;
 
-			startRunTime = 2982 - levelScene.timeLeft;
+			startRunTime = LT - levelScene.timeLeft;
 
 			System.out.println("START RUN");
 		}
@@ -412,7 +418,7 @@ public class DataRecorder {
 
 			System.out.println("END RUN");
 
-			endRunTime = 2982 - levelScene.timeLeft;
+			endRunTime = LT - levelScene.timeLeft;
 
 			totalRunTime += endRunTime - startRunTime;
 			
@@ -426,7 +432,7 @@ public class DataRecorder {
 		killRecord(sprite);
 		int enemyType = 0;
 		if(sprite instanceof FlowerEnemy){
-			detailedLog += "FireKill:  EnemyType = FlowerEnemy  time = "+ (2982 - levelScene.timeLeft);
+			detailedLog += "FireKill:  EnemyType = FlowerEnemy  time = "+ (LT - levelScene.timeLeft);
 			detailedLog += "\n";		
 		}
 		else if(sprite instanceof BulletBill){// cannon shot
@@ -435,7 +441,7 @@ public class DataRecorder {
 		}
 		else if(sprite instanceof Enemy){
 			Enemy enemy = (Enemy)sprite;
-			detailedLog += "FireKill:  EnemyType ="+ enemy.type +"time = "+ (2982 - levelScene.timeLeft);
+			detailedLog += "FireKill:  EnemyType ="+ enemy.type +"time = "+ (LT - levelScene.timeLeft);
 			detailedLog += "\n";	
 		}
 		fireKills++;
@@ -445,18 +451,18 @@ public class DataRecorder {
 	public void shellKillRecord(Sprite sprite){
 		killRecord(sprite);
 		if(sprite instanceof FlowerEnemy){
-			detailedLog += "ShellKill:  EnemyType = FlowerEnemy time = "+ (2982 - levelScene.timeLeft);
+			detailedLog += "ShellKill:  EnemyType = FlowerEnemy time = "+ (LT - levelScene.timeLeft);
 			detailedLog += "\n";	
 		}
 		else if(sprite instanceof BulletBill){//cannon shot
 		}
 		else if(sprite instanceof Shell){
-			detailedLog += "ShellKill:  EnemyType = Turtle time = "+ (2982 - levelScene.timeLeft);
+			detailedLog += "ShellKill:  EnemyType = Turtle time = "+ (LT - levelScene.timeLeft);
 			detailedLog += "\n";	
 		}
 		else if(sprite instanceof Enemy){
 			Enemy enemy = (Enemy)sprite;
-			detailedLog += "ShellKill:  EnemyType = "+enemy.type+" time = "+ (2982 - levelScene.timeLeft);
+			detailedLog += "ShellKill:  EnemyType = "+enemy.type+" time = "+ (LT - levelScene.timeLeft);
 			detailedLog += "\n";	
 		}
 		
@@ -473,20 +479,20 @@ public class DataRecorder {
 	public void killStompRecord(Sprite sprite){
 		killRecord(sprite);
 		if(sprite instanceof FlowerEnemy){
-			detailedLog += "StompKill:  EnemyType = FlowerEnemy time = "+ (2982 - levelScene.timeLeft);
+			detailedLog += "StompKill:  EnemyType = FlowerEnemy time = "+ (LT - levelScene.timeLeft);
 			detailedLog += "\n";	
 			
 		}
 		else if(sprite instanceof BulletBill){// cannon shot
-			detailedLog += "StompKill:  EnemyType = BulletBill time = "+ (2982 - levelScene.timeLeft);
+			detailedLog += "StompKill:  EnemyType = BulletBill time = "+ (LT - levelScene.timeLeft);
 			detailedLog += "\n";				
 		}
 		else if(sprite instanceof Shell){
-//			levelScene.levelRecorder.enemyR.interact.add(new DataEntry(EnemyRecorder.GREEN_TURTLE, EnemyRecorder.UNLEASHED, 2982 - levelScene.timeLeft,x,y));
+//			levelScene.levelRecorder.enemyR.interact.add(new DataEntry(EnemyRecorder.GREEN_TURTLE, EnemyRecorder.UNLEASHED, LT - levelScene.timeLeft,x,y));
 					}
 		else if(sprite instanceof Enemy){
 			Enemy enemy = (Enemy)sprite;
-			detailedLog += "StompKill:  EnemyType = "+enemy.type+" time = "+ (2982 - levelScene.timeLeft);
+			detailedLog += "StompKill:  EnemyType = "+enemy.type+" time = "+ (LT - levelScene.timeLeft);
 			detailedLog += "\n";	
 			
 		}
@@ -521,13 +527,13 @@ public class DataRecorder {
 	}
 
 	public void blockCoinDestroyRecord(){
-		detailedLog += "BlockCoinDestroy:  time = "+ (2982 - levelScene.timeLeft);
+		detailedLog += "BlockCoinDestroy:  time = "+ (LT - levelScene.timeLeft);
 		detailedLog += "\n";	
 		blocksCoinDestroyed++;
 	}
 
 	public void blockPowerDestroyRecord(){
-		detailedLog += "BlockPowerDestroy:  time = "+ (2982 - levelScene.timeLeft);
+		detailedLog += "BlockPowerDestroy:  time = "+ (LT - levelScene.timeLeft);
 		detailedLog += "\n";	
 		blocksPowerDestroyed++;
 	}
@@ -577,7 +583,7 @@ public class DataRecorder {
 	public void shellUnleashedRecord(){
 		shellsUnleashed++;
 		System.out.println(" shell unleased");
-		detailedLog += "UnleashShell:  time = "+ (2982 - levelScene.timeLeft);
+		detailedLog += "UnleashShell:  time = "+ (LT - levelScene.timeLeft);
 		detailedLog += "\n";
 	}
 
@@ -593,14 +599,14 @@ public class DataRecorder {
 	public void recordJump(){
 		if(isInAir){
 			timesJumped++;
-			startJumpTime = 2982 -levelScene.timeLeft;
+			startJumpTime = LT -levelScene.timeLeft;
 		}
 	}
 
 	public void recordJumpLand(){
 		if(isInAir){
 			isInAir = false;
-			endJumpTime = 2982-levelScene.timeLeft;
+			endJumpTime = LT-levelScene.timeLeft;
 
 			totalJumpTime += endJumpTime - startJumpTime;
 				
@@ -610,7 +616,7 @@ public class DataRecorder {
 	}
 
 	public void recordCoin(){
-		detailedLog += "CollectCoin:  time = "+ (2982 - levelScene.timeLeft);
+		detailedLog += "CollectCoin:  time = "+ (LT - levelScene.timeLeft);
 		detailedLog += "\n";
 		collectedCoins++;
 	}
