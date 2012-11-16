@@ -9,26 +9,19 @@ import dk.itu.mario.scene.LevelScene;
 public class PhysioLogger {
 	
 	private StringBuilder log;
-	private LevelScene scene;
-	
-	private int LT;
-
-	public PhysioLogger(LevelScene scene) {
+		
+	public PhysioLogger() {
 		log = new StringBuilder();
-		log.append("Time\tData\n");
-		
-		this.scene = scene;
-		
-		LT = LevelScene.LVLT * LevelScene.TPS;
+		log.append("MarioTime\tBioTime\tChannelID\tData\n");
 	}
 	
-	public void Tick() {
-		log.append(LT - scene.timeLeft + "\tSome data\n");
+	public void Tick(String timeStampMario, String bioData) {
+		log.append(timeStampMario + "\t" + bioData + "\n");
 	}
 	
-	public void write() {
+	public void write(String filename) {
 		try {
-			FileWriter file = new FileWriter(new File("PhysioLog.txt"));
+			FileWriter file = new FileWriter(new File("PhysioLog_" + filename + ".txt"));
 			file.write(log.toString());
 			file.close();
 		} catch (IOException e) {

@@ -40,6 +40,11 @@ public class EmpaticaHandler {
 		this.port = port;
 	}
 
+	public EmpaticaReader getEmpaticaReader()
+	{
+		return reader;
+	}
+	
 	public EmpaticaState connect()
 	{
 		System.out.println("- Connecting -");

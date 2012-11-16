@@ -12,14 +12,19 @@ import java.awt.image.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 
 
+import dk.itu.biologger.EmpaticaHandler;
+import dk.itu.biologger.EmpaticaSample;
 import dk.itu.mario.level.Level;
+import dk.itu.mario.scene.BaselineScene;
 import dk.itu.mario.scene.LevelScene;
 import dk.itu.mario.scene.LevelSceneTest;
 import dk.itu.mario.scene.LoseScene;
@@ -35,6 +40,9 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 	{
 		    private static final long serialVersionUID = 739318775993206607L;
 
+		    public int biologgerPort;
+		    
+		    
 		    public static final int TICKS_PER_SECOND = 24;
 
 		    public static final int EVOLVE_VERSION = 4;
@@ -165,6 +173,15 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 
 		    public void run()
 		    {
+		    	String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		    	
+		    	EmpaticaHandler biologger = new EmpaticaHandler("localhost", biologgerPort);
+		    	biologger.connect(); //TODO Christoffer, tag dig sammen her
+		    	biologger.scan();
+		    	biologger.open();
+		    	biologger.startReading();
+		    	
+		    	PhysioLogger physLogger = new PhysioLogger();
 
 		        graphicsConfiguration = getGraphicsConfiguration();
 
@@ -186,15 +203,18 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		        float averagePassedTime = 0;
 
 		        boolean naiveTiming = true;
-		        if (isCustom)
+		        /*if (isCustom)
 		        	toCustomGame();
 		        else
-		        toRandomGame();
+		        toRandomGame();*/
+		        
+		        scene = new BaselineScene(this, 30);
+		        scene.init();
 
 		        float correction = 0f;
 		        if(System.getProperty("os.name") == "Mac OS X");
 		        
-		        screenRecorder = new ScreenRecorder();
+		        screenRecorder = new ScreenRecorder(timestamp);
 
 		        while (running)
 		        {
@@ -242,6 +262,8 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		            og.fillRect(0, 0, 320, 240);
 
 		            scene.render(og, alpha);
+		            
+		            
 
 		            if (!this.hasFocus() && tick/4%2==0)
 		            {
@@ -275,8 +297,40 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		            	int t = s.LVLT * s.TPS;
 		            	t -= s.timeLeft;
 		            	screenRecorder.addFrame(image, (long)(time * 1000000000), t);
+		            	
+		            	String timeString = Integer.toString(t);
+		            	
+		            	//TODO flyt det her ud i en function
+		            	ArrayList<EmpaticaSample> latestBioLog = biologger.getEmpaticaReader().getLatestPhasic();
+		            	if(latestBioLog != null){
+			            	for(EmpaticaSample sample : latestBioLog)
+			            	{
+			            		if(sample != null)
+			            			physLogger.Tick( timeString, sample.toString() );
+			            	}
+		            	}
+		            	
+		            	
+		            	//physLogger.Tick( timeString, biologger.getEmpaticaReader().getLatestTonic(1).get(0).toString() );
+		            	//physLogger.Tick( timeString, biologger.getEmpaticaReader().getLatestBvp(1).get(0).toString() );
 		            } else
-		            	screenRecorder.addFrame(image, System.nanoTime() - startTime, -1);
+		            {
+		            	screenRecorder.addFrame(image, (long)(time * 1000000000), -1);
+		            	
+		            	String timeString = "baseline";
+		            	
+		            	//TODO dublet af todo ovenfor
+		            	ArrayList<EmpaticaSample> latestBioLog = biologger.getEmpaticaReader().getLatestPhasic();
+		            	if(latestBioLog != null){
+			            	for(EmpaticaSample sample : latestBioLog)
+			            	{
+			            		if(sample != null)
+			            			physLogger.Tick( timeString, sample.toString() );
+			            	}
+		            	}
+		            	//physLogger.Tick( timeString, biologger.getEmpaticaReader().getLatestTonic(1).get(0).toString() );
+		            	//physLogger.Tick( timeString, biologger.getEmpaticaReader().getLatestBvp(1).get(0).toString() );
+		            }
 
 		            renderedFrames++;
 
@@ -292,6 +346,12 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		        screenRecorder.finishMovie();
 
 		        Art.stopMusic();
+		        
+		        biologger.stop(); //So verbose!
+		        //biologger.close();
+		        //biologger.disconnect();
+		        
+		        physLogger.write(timestamp);
 		        
 		        System.exit(0);
 		    }
@@ -341,12 +401,19 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 
 		    private LevelScene randomLevel;
 
+			private int levelDifficulty = 2;
+
 
 		    /**
 		     * Part of the fun increaser
 		     */
 		    public void toRandomGame(){
-		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,false);
+		    	
+		    	//long seed = new Random().nextLong();
+		    	long seed = 3224411591760346650l;
+		    	System.out.println(seed);
+				randomLevel = new LevelSceneTest(graphicsConfiguration,this,seed,levelDifficulty ,0,false);
+		    	//randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,false);
 
 		    	Mario.fire = false;
 		    	Mario.large = false;
@@ -416,6 +483,10 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 			 */
 			public Dimension getPreferredSize(){
 				return new Dimension(width,height);
+			}
+
+			public void baseline() {
+				toRandomGame();
 			}
 			
 //			protected void processWindowEvent(WindowEvent e) {

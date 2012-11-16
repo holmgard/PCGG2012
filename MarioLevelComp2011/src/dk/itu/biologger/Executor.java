@@ -6,7 +6,7 @@ public class Executor {
 	{
 		System.out.println("--= Biologger =--");
 		
-		EmpaticaHandler handler = new EmpaticaHandler("localhost",55641);
+		EmpaticaHandler handler = new EmpaticaHandler("localhost",56601);
 		
 		handler.connect();
 		handler.scan();

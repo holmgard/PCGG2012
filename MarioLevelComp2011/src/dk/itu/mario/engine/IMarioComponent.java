@@ -62,5 +62,8 @@ public interface IMarioComponent {
 	 * Must return the actual fill of the viewable components
 	 */
 	public abstract Dimension getPreferredSize();
+	
+	/*Biologging additions*/
+	public void baseline(); 
 
 }
