@@ -128,7 +128,7 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		        		//screenRecorder.finishMovie();
 		        		running = false;
 		        		
-		        		System.exit(1);
+		        		//System.exit(1);
 		        	}catch(Exception e){
 		        		System.out.println("Unable to exit.");
 		        	}
@@ -292,6 +292,8 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		        screenRecorder.finishMovie();
 
 		        Art.stopMusic();
+		        
+		        System.exit(0);
 		    }
 
 		    private void drawString(Graphics g, String text, int x, int y, int c)
