@@ -9,10 +9,11 @@ import dk.itu.mario.scene.LevelScene;
 public class PhysioLogger {
 	
 	private StringBuilder log;
-		
+	
+	
 	public PhysioLogger() {
 		log = new StringBuilder();
-		log.append("MarioTime\tBioTime\tChannelID\tData\n");
+		log.append("MarioTime\tPhasicTime\tPhasicChannel\tPhasicData\tTonicTime\tTonicChannel\tDataTonic\tBVPTime\tBVPChannel\tBVPData\n");
 	}
 	
 	public void Tick(String timeStampMario, String bioData) {

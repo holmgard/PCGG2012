@@ -53,14 +53,14 @@ public class EmpaticaReader implements Runnable {
 				//System.out.println(channelID);
 				//System.out.println(dataLength);
 				
-				for(int i = 0; i < dataLength; i++)
+				for(int i = 0; i < dataLength; i++) 
 				{
 					float sampleValue = inStream.readFloat();
 					//System.out.println(channelID + " " + sampleValue);
 					EmpaticaSample sample = new EmpaticaSample(Long.toString(System.currentTimeMillis()), channelID, sampleValue );
 					
-					if(channelID == 2)
-						System.out.println(sample.toString());
+					/*if(channelID == 2)
+						System.out.println(sample.toString());*/
 					
 					switch(channelID)
 					{
@@ -68,10 +68,10 @@ public class EmpaticaReader implements Runnable {
 						bvp.add(sample);
 						break;
 					case 2:
-						phasic.add(sample);
+						tonic.add(sample);
 						break;
 					case 3:
-						tonic.add(sample);
+						phasic.add(sample);
 						break;
 					case 4:
 						x.add(sample);
@@ -103,12 +103,12 @@ public class EmpaticaReader implements Runnable {
 	{
 		System.out.println("- Reader stopping reading -");
 		reading = false; //TODO Du skal huske at sende STOP til empaticaen, sŒ den lukker paent
-		try{
+		/*try{
 			inStream.close();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public ArrayList<EmpaticaSample> getLatestPhasic()
@@ -118,24 +118,18 @@ public class EmpaticaReader implements Runnable {
 		return copy;
 	}
 	
-	public List<EmpaticaSample> getLatestTonic(int numSamples)
+	public ArrayList<EmpaticaSample> getLatestTonic()
 	{
-		List<EmpaticaSample> result = null;
-		if(tonic.size() > numSamples)
-		{
-				result = tonic.subList((tonic.size()-numSamples)	, tonic.size());
-		}
-		return result;
+		ArrayList<EmpaticaSample> copy = new ArrayList<EmpaticaSample>(tonic);
+		tonic.clear();
+		return copy;
 	}
 	
-	public List<EmpaticaSample> getLatestBvp(int numSamples)
+	public ArrayList<EmpaticaSample> getLatestBvp()
 	{
-		List<EmpaticaSample> result = null;
-		if(bvp.size() > numSamples)
-		{
-				result = bvp.subList((bvp.size()-numSamples)	, bvp.size());
-		}
-		return result;
+		ArrayList<EmpaticaSample> copy = new ArrayList<EmpaticaSample>(bvp);
+		bvp.clear();
+		return copy;
 	}
 
 	public void run() {
