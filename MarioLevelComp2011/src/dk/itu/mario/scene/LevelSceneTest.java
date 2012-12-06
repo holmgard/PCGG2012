@@ -26,6 +26,7 @@ import dk.itu.mario.level.CustomizedLevel;
 import dk.itu.mario.level.Level;
 import dk.itu.mario.level.RandomLevel;
 import dk.itu.mario.level.generator.CustomizedLevelGenerator;
+import dk.itu.mario.level.generator.bio.BioLevelGenerator;
 import dk.itu.mario.engine.Play;
 import dk.itu.mario.res.ResourcesManager;
 
@@ -57,7 +58,8 @@ import dk.itu.mario.res.ResourcesManager;
 
 		        if(level==null)
 		        	if(isCustom){
-		        		CustomizedLevelGenerator clg = new CustomizedLevelGenerator();
+		        		//CustomizedLevelGenerator clg = new CustomizedLevelGenerator();
+		        		BioLevelGenerator clg = new BioLevelGenerator();
 		        		GamePlay gp = new GamePlay();
 		        		gp = gp.read("player.txt");
 		        		currentLevel = (Level)clg.generateLevel(gp);

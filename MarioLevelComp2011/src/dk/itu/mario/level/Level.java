@@ -45,10 +45,10 @@ public class Level implements LevelInterface
     protected int height;
 
     //This map of WIDTH * HEIGHT that contains the level's design
-    private byte[][] map;
+    protected byte[][] map;
 
     //This is a map of WIDTH * HEIGHT that contains the placement and type enemies
-    private SpriteTemplate[][] spriteTemplates;
+    protected SpriteTemplate[][] spriteTemplates;
 
     //These are the place of the end of the level
     protected int xExit;

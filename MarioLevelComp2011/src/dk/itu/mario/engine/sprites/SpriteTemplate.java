@@ -1,9 +1,17 @@
 package dk.itu.mario.engine.sprites;
 
+import java.io.Serializable;
+
 import dk.itu.mario.scene.LevelScene;
 
-public class SpriteTemplate
+public class SpriteTemplate implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 390109512425709610L;
+	
+	
 	public static final int RED_TURTLE		= 0;
 	public static final int GREEN_TURTLE	= 1;
 	public static final int GOOMPA			= 2;
@@ -20,7 +28,7 @@ public class SpriteTemplate
     public int lastVisibleTick = -1;
     public Sprite sprite;
     public boolean isDead = false;
-    private boolean winged;
+    public boolean winged;
 
     public int type;
     public int direction = 1;
@@ -29,6 +37,11 @@ public class SpriteTemplate
     {
         this.type = type;
         this.winged = winged;
+    }
+    
+    public SpriteTemplate clone() {
+    	SpriteTemplate st = new SpriteTemplate(type, winged);
+    	return st;
     }
 
     public void spawn(LevelScene world, int x, int y, int dir)
