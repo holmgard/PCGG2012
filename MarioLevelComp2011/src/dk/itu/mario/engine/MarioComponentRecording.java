@@ -23,6 +23,7 @@ import javax.swing.*;
 
 import dk.itu.biologger.EmpaticaHandler;
 import dk.itu.biologger.EmpaticaSample;
+import dk.itu.biologger.PhysioLogger;
 import dk.itu.mario.level.Level;
 import dk.itu.mario.scene.BaselineScene;
 import dk.itu.mario.scene.LevelScene;
@@ -175,13 +176,8 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    {
 		    	String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 		    	
-		    	EmpaticaHandler biologger = new EmpaticaHandler(true);
-		    	biologger.autoConnect(); //TODO Christoffer, tag dig sammen her
-		    	biologger.scan();
-		    	biologger.open();
-		    	biologger.startReading();
-		    	
-		    	PhysioLogger physLogger = new PhysioLogger();
+		    	PhysioLogger physLogger = new PhysioLogger(scene);
+		    	physLogger.initBioLogging();
 
 		        graphicsConfiguration = getGraphicsConfiguration();
 
@@ -299,13 +295,15 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		            	screenRecorder.addFrame(image, (long)(time * 1000000000), t);
 		            	
 		            	String timeString = Integer.toString(t);
-		            	logBio(biologger, physLogger, timeString);		            	
+		            	
+		            	physLogger.logBio(t,timeString, ((LevelScene) scene).mario.x);
+		            			            	
 		            } else
 		            {
 		            	screenRecorder.addFrame(image, (long)(time * 1000000000), -1);
 		            	
 		            	String timeString = "baseline";
-		            	logBio(biologger, physLogger, timeString);
+		            	physLogger.logBio(-1, timeString, -1f);
 		            }
 
 		            renderedFrames++;
@@ -323,43 +321,10 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 
 		        Art.stopMusic();
 		        
-		        biologger.stop(); //So verbose!
-		        biologger.close();
-		        biologger.disconnect();
-		        
+		        physLogger.stop();
 		        physLogger.write(timestamp);
 		        
 		        System.exit(0);
-		    }
-		    
-		    public void logBio(EmpaticaHandler biologger, PhysioLogger physLogger, String timeString){
-		    	ArrayList<EmpaticaSample> latestPhasic = biologger.getEmpaticaReader().getLatestPhasic();
-		    	ArrayList<EmpaticaSample> latestTonic = biologger.getEmpaticaReader().getLatestTonic();
-		    	ArrayList<EmpaticaSample> latestBVP = biologger.getEmpaticaReader().getLatestBvp();
-		    	ArrayList<EmpaticaSample>[] lists = new ArrayList[3];
-		    	lists[0] = latestPhasic;
-		    	lists[1] = latestTonic;
-		    	lists[2] = latestBVP;
-		    	
-		    	ArrayList<EmpaticaSample> longestList = latestPhasic;
-		    	if(latestTonic.size() > longestList.size())
-		    		longestList = latestTonic;
-		    	if(latestBVP.size() > longestList.size())
-		    		longestList = latestBVP;
-		    	
-	            for(int i = 0; i < longestList.size(); i++)
-	            {
-	            	String logString = "";
-	            	for(int j = 0; j < lists.length; j++)
-	            	{
-	            		logString += "\t";
-	            		if(lists[j] != null && lists[j].size() > i && lists[j].size() > 0)
-	            			logString += lists[j].get(i).toString();
-	            		else
-	            			logString += "NOTIME\tNOCHAN\tNOSIGN";
-	            	}
-	            	physLogger.Tick( timeString, logString );
-	            }
 		    }
 		    
 		    private void drawString(Graphics g, String text, int x, int y, int c)

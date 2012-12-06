@@ -9,7 +9,6 @@ public class Play {
 	    {
 
 			int bioLoggerPort = Integer.parseInt(args[0]);
-			System.out.println("Using port: " + bioLoggerPort);
 			
 	    	JFrame frame = new JFrame("Mario Experience Showcase");
 	    	//MarioComponent mario = new MarioComponent(640, 480,false);

@@ -2,8 +2,8 @@ package dk.itu.biologger;
 
 enum EmpaticaSampleType{
 	BVP,
-	PHASIC,
 	TONIC,
+	PHASIC,
 	X,
 	Y,
 	Z,
