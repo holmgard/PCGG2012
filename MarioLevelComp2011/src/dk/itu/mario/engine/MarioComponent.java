@@ -440,6 +440,11 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 				return new Dimension(width,height);
 			}
 
+			public void baseline() {
+				// TODO Auto-generated method stub
+				
+			}
+
 
 
 

@@ -70,7 +70,8 @@ import dk.itu.mario.res.ResourcesManager;
 		                
 		              }
 			        	else
-		        		currentLevel = new RandomLevel(320, 15, levelSeed, levelDifficulty,levelType);
+		        		//currentLevel = new RandomLevel(320, 15, levelSeed, levelDifficulty,levelType);
+		        		currentLevel = new RandomLevel(1920, 15, levelSeed, levelDifficulty,levelType);
 
 		        try {
 					 level = currentLevel.clone();
@@ -152,7 +153,11 @@ import dk.itu.mario.res.ResourcesManager;
 					marioComponent.lose();
 				}
 				else // mario still has lives to play :)--> have a new beginning
+				{
+					if(recorder != null)
+						recorder.fillGamePlayMetrics((RandomLevel)level);
 					reset();
+				}
 			}
 
 			public void bump(int x, int y, boolean canBreakBricks)

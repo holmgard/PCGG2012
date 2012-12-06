@@ -12,14 +12,14 @@ public class EmpaticaReader implements Runnable {
 	DataInputStream inStream;
 	
 	int bufferSize; //How many samples do we keep
-	public volatile ArrayList<EmpaticaSample> bvp;
-	public volatile ArrayList<EmpaticaSample> phasic;
-	public volatile ArrayList<EmpaticaSample> tonic;
-	public volatile ArrayList<EmpaticaSample> x;
-	public volatile ArrayList<EmpaticaSample> y;
-	public volatile ArrayList<EmpaticaSample> z;
-	public volatile ArrayList<EmpaticaSample> temp;
-	public volatile ArrayList<EmpaticaSample> batt;
+	public ArrayList<EmpaticaSample> bvp;
+	public ArrayList<EmpaticaSample> phasic;
+	public ArrayList<EmpaticaSample> tonic;
+	public ArrayList<EmpaticaSample> x;
+	public ArrayList<EmpaticaSample> y;
+	public ArrayList<EmpaticaSample> z;
+	public ArrayList<EmpaticaSample> temp;
+	public ArrayList<EmpaticaSample> batt;
 	
 	public EmpaticaReader(Socket socket)
 	{
@@ -53,14 +53,14 @@ public class EmpaticaReader implements Runnable {
 				//System.out.println(channelID);
 				//System.out.println(dataLength);
 				
-				for(int i = 0; i < dataLength; i++)
+				for(int i = 0; i < dataLength; i++) 
 				{
 					float sampleValue = inStream.readFloat();
 					//System.out.println(channelID + " " + sampleValue);
 					EmpaticaSample sample = new EmpaticaSample(Long.toString(System.currentTimeMillis()), channelID, sampleValue );
 					
-					if(channelID == 2)
-						System.out.println(sample.toString());
+					/*if(channelID == 2)
+						System.out.println(sample.toString());*/
 					
 					switch(channelID)
 					{
@@ -68,10 +68,10 @@ public class EmpaticaReader implements Runnable {
 						bvp.add(sample);
 						break;
 					case 2:
-						phasic.add(sample);
+						tonic.add(sample);
 						break;
 					case 3:
-						tonic.add(sample);
+						phasic.add(sample);
 						break;
 					case 4:
 						x.add(sample);
@@ -102,43 +102,34 @@ public class EmpaticaReader implements Runnable {
 	public void stopReading()
 	{
 		System.out.println("- Reader stopping reading -");
-		reading = false;
-		try{
+		reading = false; //TODO Du skal huske at sende STOP til empaticaen, sŒ den lukker paent
+		/*try{
 			inStream.close();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
-	public List<EmpaticaSample> getLatestPhasic(int numSamples)
+	public ArrayList<EmpaticaSample> getLatestPhasic()
 	{
-		List<EmpaticaSample> result = null;
-		if(phasic.size() > numSamples)
-		{
-				result = phasic.subList((phasic.size()-numSamples)	, phasic.size());
-		}
-		return result;
+		ArrayList<EmpaticaSample> copy = new ArrayList<EmpaticaSample>(phasic);
+		phasic.clear();
+		return copy;
 	}
 	
-	public List<EmpaticaSample> getLatestTonic(int numSamples)
+	public ArrayList<EmpaticaSample> getLatestTonic()
 	{
-		List<EmpaticaSample> result = null;
-		if(tonic.size() > numSamples)
-		{
-				result = tonic.subList((tonic.size()-numSamples)	, tonic.size());
-		}
-		return result;
+		ArrayList<EmpaticaSample> copy = new ArrayList<EmpaticaSample>(tonic);
+		tonic.clear();
+		return copy;
 	}
 	
-	public List<EmpaticaSample> getLatestBvp(int numSamples)
+	public ArrayList<EmpaticaSample> getLatestBvp()
 	{
-		List<EmpaticaSample> result = null;
-		if(bvp.size() > numSamples)
-		{
-				result = bvp.subList((bvp.size()-numSamples)	, bvp.size());
-		}
-		return result;
+		ArrayList<EmpaticaSample> copy = new ArrayList<EmpaticaSample>(bvp);
+		bvp.clear();
+		return copy;
 	}
 
 	public void run() {

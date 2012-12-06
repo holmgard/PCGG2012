@@ -24,6 +24,9 @@ public class EmpaticaHandler {
 	int port = 53321;
 	Socket socket;
 	
+	int lowestPort = 45000;
+	int highestPort = 65000;
+	
 	BufferedReader controlReader;
 	DataOutputStream controlWriter;
 	
@@ -32,14 +35,73 @@ public class EmpaticaHandler {
 	
 	private EmpaticaState deviceState = EmpaticaState.NODEVICE;
 	
-	public EmpaticaHandler(){}
+	public EmpaticaHandler(){
+		this.host = "localhost";
+		this.port = lowestPort;
+	}
 	
 	public EmpaticaHandler(String host, int port)
 	{
-		this.host = "localhost";
+		this.host = host;
 		this.port = port;
 	}
+	
+	public EmpaticaHandler(boolean autoConnect)
+	{
+		this.host = "localhost";
+		this.port = lowestPort;
+	}
 
+	public EmpaticaReader getEmpaticaReader()
+	{
+		return reader;
+	}
+	
+	public EmpaticaState autoConnect()
+	{
+		int openPort;
+		boolean foundPort = false;
+		
+		while(port < highestPort && !foundPort)
+		{
+			try{
+				System.out.println("Trying port " + port);
+				socket = new Socket("localhost", port);
+				socket.close();
+				openPort = port;
+				foundPort = true;
+			} catch (ConnectException e)
+			{
+				if(port < highestPort)
+				{
+					port++;
+					if(port == 51638 || port == 61616)
+						port++;
+				} else {
+					System.out.println("Could not find an open port to connect to");
+					e.printStackTrace();
+				}
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		try{
+			socket = new Socket("localhost", port);
+			controlWriter = new DataOutputStream(socket.getOutputStream());
+			controlReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			deviceState = EmpaticaState.CONNECTED;
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return deviceState;
+	}
+	
 	public EmpaticaState connect()
 	{
 		System.out.println("- Connecting -");
@@ -145,10 +207,11 @@ public class EmpaticaHandler {
 		readingThread.start();
 	}
 	
-	public EmpaticaState stop(){
+	public EmpaticaState stop() {
 		System.out.println("- Stopping -");
 		try{
 			reader.stopReading();
+			try{readingThread.join();}catch(InterruptedException e){e.printStackTrace();}
 			
 			controlWriter.writeBytes("stop");
 			if(this.waitForResponse() == "OK")
@@ -168,7 +231,7 @@ public class EmpaticaHandler {
 			controlWriter.writeBytes("close");
 			if(this.waitForResponse() == "OK")
 			{
-				deviceState = EmpaticaState.STOPPED;
+				deviceState = EmpaticaState.CLOSED;
 			}
 		} catch (IOException e)
 		{

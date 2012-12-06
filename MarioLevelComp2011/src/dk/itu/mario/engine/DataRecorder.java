@@ -3,6 +3,8 @@ package dk.itu.mario.engine;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import dk.itu.mario.MarioInterface.GamePlay;
 import dk.itu.mario.engine.sprites.SpriteTemplate;
@@ -851,7 +853,8 @@ public class DataRecorder {
 
 	private void write(String detailedLog2) {
 		try {
-			FileWriter file = new FileWriter(new File("DetailedInfo.txt"));
+			String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+			FileWriter file = new FileWriter(new File("DetailedInfo" + timestamp + ".txt"));
 			file.write(detailedLog);
 			file.close();
 		} catch (IOException e) {

@@ -64,7 +64,8 @@ public class LevelScene extends Scene implements SpriteContext
     private int xArrow,yArrow;
     
     public static final int TPS = 24; // Ticks per second
-    public static final int LVLT = 200; // Level time
+    //public static final int LVLT = 200; // Level time
+    public static final int LVLT = 10000; // Level time
 
     public LevelScene(GraphicsConfiguration graphicsConfiguration, IMarioComponent renderer, long seed, int levelDifficulty, int type)
     {
