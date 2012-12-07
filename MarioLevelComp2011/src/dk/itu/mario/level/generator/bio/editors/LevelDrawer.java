@@ -1,8 +1,10 @@
 package dk.itu.mario.level.generator.bio.editors;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import javax.swing.JComponent;
@@ -52,6 +54,12 @@ public class LevelDrawer extends JComponent implements Scrollable {
 	
 	private byte[][] map = null;
 	private SpriteTemplate[][] sprites = null;
+	
+	private byte[][] chunk = null;
+	private SpriteTemplate[][] chunkSprite = null;
+	private int cx = 0;
+	private int cy = 0;
+	private boolean cv = false;
 	
 	public LevelDrawer() {
 		super();
@@ -111,6 +119,35 @@ public class LevelDrawer extends JComponent implements Scrollable {
 				}
 			}
 
+			// Draw chunk - only screen editor
+			if (chunk != null) {
+				if (!cv || (cx + chunk.length > map.length) || (cy + chunk[0].length > map[0].length))
+					g.setColor(Color.RED);
+				else
+					g.setColor(Color.CYAN);
+				
+				for (int x = 0; x < chunk.length; ++x) {
+					for (int y = 0; y < chunk[0].length; ++y) {
+						int b = chunk[x][y] & 0xff;
+						g.drawImage(Art.level[b % 16][b / 16], (cx + x) * 16, (cy + y) * 16, null);
+						
+						if (chunkSprite != null) {
+							SpriteTemplate sprite = chunkSprite[x][y];
+							if (sprite != null) {
+								g.drawImage(Art.enemies[0][getSpriteIndex(sprite.type)],(cx + x) * 16, (cy + y) * 16 - 16, null);
+								if (sprite.winged)
+									g.drawImage(Art.enemies[0][4], (cx + x) * 16, (cy + y) * 16 - 16, null);
+							}
+						}
+					}
+				}
+				
+				Graphics2D g2d = (Graphics2D)g;
+				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+				g2d.fillRect(cx * 16, cy * 16, chunk.length * 16, chunk[0].length * 16);
+				g2d.setComposite(AlphaComposite.SrcOver);
+				//g.setXORMode(Color.WHITE);
+			}
 		}
 		
 		// Draw grid
@@ -140,6 +177,26 @@ public class LevelDrawer extends JComponent implements Scrollable {
 	
 	public void setSprites(SpriteTemplate[][] sprites) {
 		this.sprites = sprites;
+	}
+	
+	public void setChunk(byte[][] chunk) {
+		this.chunk = chunk;
+	}
+	
+	public void setChunkSprite(SpriteTemplate[][] sprite) {
+		this.chunkSprite = sprite;
+	}
+	
+	public void setChunkX(int x) {
+		cx = x;
+	}
+	
+	public void setChunkY(int y) {
+		cy = y;
+	}
+	
+	public void setChunkValid(boolean valid) {
+		cv = valid;
 	}
 
 	public Dimension getPreferredScrollableViewportSize() {

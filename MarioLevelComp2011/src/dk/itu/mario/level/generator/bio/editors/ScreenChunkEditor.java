@@ -2,7 +2,9 @@ package dk.itu.mario.level.generator.bio.editors;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -27,6 +29,9 @@ import dk.itu.mario.level.generator.bio.ScreenChunkLibrary;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 public class ScreenChunkEditor {
 
@@ -46,6 +51,7 @@ public class ScreenChunkEditor {
 	private Chunk currentChunk;
 	private ScreenChunk currentScreenChunk;
 	private byte[][] map;
+	private int[][] chunkId;
 	private SpriteTemplate[][] sprites;
 	private LevelDrawer levelDrawer;
 
@@ -70,6 +76,8 @@ public class ScreenChunkEditor {
 	 */
 	public ScreenChunkEditor() {
 		initialize();
+		
+		levelDrawer.init();
 		
 		cl = ChunkLibrary.getInstance();
 		scl = ScreenChunkLibrary.getInstance();
@@ -117,6 +125,100 @@ public class ScreenChunkEditor {
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane, -6, SpringLayout.WEST, panel);
 		
 		levelDrawer = new LevelDrawer();
+		levelDrawer.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				int tx = arg0.getX() / 16;
+				int ty = arg0.getY() / 16;
+				
+				levelDrawer.setChunkX(tx);
+				levelDrawer.setChunkY(ty);
+				
+				levelDrawer.setChunkValid(true);
+				for (int x = 0; x < currentChunk.getWidth(); ++x)
+					for (int y = 0; y < currentChunk.getHeight(); ++y) {
+						if ((tx + x >= chunkId.length) || (ty + y >= chunkId[0].length)) {
+							levelDrawer.setChunkValid(false);
+							break;
+						}
+						if (chunkId[tx + x][ty + y] >= 0)
+							levelDrawer.setChunkValid(false);
+					}
+				
+				levelDrawer.repaint();
+			}
+		});
+		levelDrawer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				//System.out.println(String.format("X: %d ; Y: %d", arg0.getX() / 16, arg0.getY() / 16));
+				int tx = arg0.getX() / 16;
+				int ty = arg0.getY() / 16;
+				
+				if (arg0.getButton() == MouseEvent.BUTTON1) {
+					for (int x = 0; x < currentChunk.getWidth(); ++x)
+						for (int y = 0; y < currentChunk.getHeight(); ++y) {
+							if ((tx + x >= chunkId.length) || (ty + y >= chunkId[0].length))
+								return;
+							if (chunkId[tx + x][ty + y] >= 0)
+								return;
+						}
+					
+					currentScreenChunk.addChunk(currentChunk.getId(), tx, ty);
+					
+					for (int x = 0; x < currentChunk.getWidth(); ++x)
+						for (int y = 0; y < currentChunk.getHeight(); ++y) {
+							chunkId[tx + x][ty + y] = currentChunk.getId();
+						}
+					
+				} else if (arg0.getButton() == MouseEvent.BUTTON3) {
+					//TODO: find chunk and remove it
+					if (chunkId[tx][ty] < 0)
+						return;
+					
+					ArrayList<Point> coords = new ArrayList<Point>();
+					List<Chunk> chunks = currentScreenChunk.getChunks(coords);
+					
+					int i;
+					for (i = 0; i < chunks.size(); ++i) {
+						Chunk chunk = chunks.get(i);
+						if (chunk.getId() != chunkId[tx][ty])
+							continue; // no match
+						
+						//possible match - check if it is the correctly placed chunk
+						Point coord = coords.get(i);
+						if ((tx >= coord.x) && (tx <= coord.x + chunk.getWidth()) && (ty >= coord.y) && (ty <= coord.y + chunk.getHeight())) {
+							// we found the chunk
+							currentScreenChunk.removeChunk(chunk.getId(), coord.x, coord.y);
+							
+							for (int x = 0; x < chunk.getWidth(); ++x)
+								for (int y = 0; y < chunk.getHeight(); ++y) {
+									chunkId[x + coord.x][y + coord.y] = -1;
+									map[x + coord.x][y + coord.y] = 0;
+									sprites[x + coord.x][y + coord.y] = null;
+								}
+						}
+					}
+				}
+				
+				currentScreenChunk.draw(map, sprites);
+				levelDrawer.repaint();
+			}
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				levelDrawer.setChunk(currentChunk.getMap());
+				levelDrawer.setChunkSprite(currentChunk.getSprites());
+				
+				levelDrawer.repaint();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				levelDrawer.setChunk(null);
+				levelDrawer.setChunkSprite(null);
+				
+				levelDrawer.repaint();
+			}
+		});
 		scrollPane.setViewportView(levelDrawer);
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 10, SpringLayout.NORTH, frmSuperScreenChunk.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, 453, SpringLayout.NORTH, frmSuperScreenChunk.getContentPane());
@@ -171,7 +273,12 @@ public class ScreenChunkEditor {
 		sl_panel_2.putConstraint(SpringLayout.WEST, btnAddScreenChunk, 10, SpringLayout.WEST, panel_2);
 		panel_2.add(btnAddScreenChunk);
 		
-		chunkCombo = new JComboBox();
+		chunkCombo = new JComboBox<Integer>();
+		chunkCombo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectChunk();
+			}
+		});
 		sl_panel.putConstraint(SpringLayout.NORTH, chunkCombo, 6, SpringLayout.SOUTH, panel_2);
 		sl_panel.putConstraint(SpringLayout.WEST, chunkCombo, 10, SpringLayout.WEST, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, chunkCombo, 158, SpringLayout.WEST, panel);
@@ -289,6 +396,12 @@ public class ScreenChunkEditor {
 		panel_1.setLayout(sl_panel_1);
 		
 		screenList = new JList<Integer>();
+		screenList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectScreenChunk();
+			}
+		});
 		sl_panel_1.putConstraint(SpringLayout.NORTH, screenList, 10, SpringLayout.NORTH, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.WEST, screenList, 10, SpringLayout.WEST, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.SOUTH, screenList, 379, SpringLayout.NORTH, panel_1);
@@ -296,6 +409,11 @@ public class ScreenChunkEditor {
 		panel_1.add(screenList);
 		
 		JButton btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				removeScreenChunk();
+			}
+		});
 		sl_panel_1.putConstraint(SpringLayout.NORTH, btnRemove, 6, SpringLayout.SOUTH, screenList);
 		sl_panel_1.putConstraint(SpringLayout.EAST, btnRemove, -10, SpringLayout.EAST, panel_1);
 		panel_1.add(btnRemove);
@@ -342,16 +460,21 @@ public class ScreenChunkEditor {
 		int w = (Integer) widthSpinner.getValue();
 		currentScreenChunk = new ScreenChunk(scl.getNextId(), w);
 		map = new byte[w][15];
+		chunkId = new int[w][15];
 		sprites = new SpriteTemplate[w][15];
+		
+		for (int x = 0; x < chunkId.length; ++x)
+			for (int y = 0; y < chunkId[0].length; ++y)
+				chunkId[x][y] = -1;
 		
 		updateWindows();
 		
 		levelDrawer.setSize(w * 16, 15 * 16);
 		levelDrawer.setPreferredSize(new Dimension(w * 16, 15 * 16));
-		levelDrawer.revalidate();
 		levelDrawer.setMap(map);
 		levelDrawer.setSprites(sprites);
 		levelDrawer.repaint();
+		levelDrawer.revalidate();
 	}
 	
 	private void populateScreenList() {
@@ -441,5 +564,51 @@ public class ScreenChunkEditor {
 		out.remove(outList.getSelectedIndex());
 		
 		updateWindows();
+	}
+	
+	private void removeScreenChunk() {
+		scl.removeChunk(screenList.getSelectedValue());
+		screenList.remove(screenList.getSelectedIndex());
+	}
+	
+	private void selectScreenChunk() {
+		currentScreenChunk = scl.getChunk(screenList.getSelectedValue());
+		
+		updateWindows();
+		
+		map = new byte[currentScreenChunk.getWidth()][15];
+		chunkId = new int[currentScreenChunk.getWidth()][15];
+		sprites = new SpriteTemplate[currentScreenChunk.getWidth()][15];
+		
+		for (int x = 0; x < chunkId.length; ++x)
+			for (int y = 0; y < chunkId[0].length; ++y)
+				chunkId[x][y] = -1;
+		
+		ArrayList<Point> coords = new ArrayList<Point>();
+		List<Chunk> chunks = currentScreenChunk.getChunks(coords);
+		for (int i = 0; i < chunks.size(); ++i) {
+			
+			Chunk c = chunks.get(i);
+			Point coord = coords.get(i);
+			
+			for (int x = 0; x < c.getWidth(); ++x) {
+				for (int y = 0; y < c.getHeight(); ++y) {
+					chunkId[x + coord.x][y + coord.y] = c.getId();
+				}
+			}
+		}
+
+		currentScreenChunk.draw(map, sprites);
+		
+		levelDrawer.setSize(currentScreenChunk.getWidth() * 16, 15 * 16);
+		levelDrawer.setPreferredSize(new Dimension(currentScreenChunk.getWidth() * 16, 15 * 16));
+		levelDrawer.revalidate();
+		levelDrawer.setMap(map);
+		levelDrawer.setSprites(sprites);
+		levelDrawer.repaint();
+	}
+	
+	private void selectChunk() {
+		currentChunk = cl.getChunk((Integer) chunkCombo.getSelectedItem());
 	}
 }

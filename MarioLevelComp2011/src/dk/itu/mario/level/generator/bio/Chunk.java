@@ -67,4 +67,15 @@ public class Chunk implements Serializable {
 	public int getHeight() {
 		return map[0].length;
 	}
+
+	public void draw(byte[][] map2, SpriteTemplate[][] sprites2, int x, int y) {
+		for (int i = 0; (i < map.length); ++i)
+			for (int o = 0; (o < map[0].length); ++o) {
+				if ((i + x >= map2.length) || (o + y >= map2[0].length))
+					continue;
+				map2[x+i][y+o] = map[i][o];
+				if (sprites[i][o] != null)
+					sprites2[x+i][y+o] = sprites[i][o].clone();
+			}
+	}
 }

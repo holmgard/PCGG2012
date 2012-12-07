@@ -1,8 +1,11 @@
 package dk.itu.mario.level.generator.bio;
 
+import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import dk.itu.mario.engine.sprites.SpriteTemplate;
 
 public class ScreenChunk implements Serializable {
 	/**
@@ -68,6 +71,18 @@ public class ScreenChunk implements Serializable {
 		chunks.add(new ChunkWrapper(id, x, y));
 	}
 	
+	public void removeChunk(int id, int x, int y) {
+		int i;
+		
+		for (i = 0; i < chunks.size(); ++i) {
+			ChunkWrapper cw = chunks.get(i);
+			if ((cw.id == id) && (cw.x == x) && (cw.y == y))
+				break;
+		}
+		
+		chunks.remove(i);
+	}
+	
 	public int addInWindow(byte startY, byte endY) {
 		byte[] window = new byte[2];
 		window[0] = startY;
@@ -115,6 +130,13 @@ public class ScreenChunk implements Serializable {
 		}
 	}
 	
+	public void draw(byte[][] map, SpriteTemplate[][] sprites) {
+		for (ChunkWrapper cw : chunks) {
+			Chunk c = chunkLibrary.getChunk(cw.id);
+			c.draw(map, sprites, cw.x, cw.y);
+		}
+	}
+	
 	// Let screen chunk update chunks
 	// TODO: Use float precision for overlap check
 	public void updateChunksValue(int x, int y, float v) {
@@ -126,6 +148,21 @@ public class ScreenChunk implements Serializable {
 	
 	private boolean chunkOverlap(int x, int y, ChunkWrapper cw) {
 		return false;
+	}
+	
+	public List<Chunk> getChunks(List<Point> coords) {
+		ArrayList<Chunk> c = new ArrayList<Chunk>();
+		
+		if (coords != null)
+			coords.clear();
+		
+		for (ChunkWrapper cw : chunks) {
+			c.add(chunkLibrary.getChunk(cw.id));
+			if (coords != null)
+				coords.add(new Point(cw.x, cw.y));
+		}
+		
+		return c;
 	}
 }
 
