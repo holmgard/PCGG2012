@@ -160,8 +160,9 @@ public class ScreenChunkEditor {
 						for (int y = 0; y < currentChunk.getHeight(); ++y) {
 							if ((tx + x >= chunkId.length) || (ty + y >= chunkId[0].length))
 								return;
-							if (chunkId[tx + x][ty + y] >= 0)
-								return;
+							if (chunkId[tx + x][ty + y] >= 0) {
+								;//return;
+							}
 						}
 					
 					currentScreenChunk.addChunk(currentChunk.getId(), tx, ty);

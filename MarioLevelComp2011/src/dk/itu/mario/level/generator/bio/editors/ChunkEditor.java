@@ -43,6 +43,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.ButtonGroup;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 public class ChunkEditor {
 
@@ -340,27 +342,14 @@ public class ChunkEditor {
 		SpringLayout sl_libPanel = new SpringLayout();
 		libPanel.setLayout(sl_libPanel);
 		
-		list = new JList();
-		list.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				selectChunk();
-			}
-		});
-		sl_libPanel.putConstraint(SpringLayout.NORTH, list, 0, SpringLayout.NORTH, libPanel);
-		sl_libPanel.putConstraint(SpringLayout.WEST, list, 0, SpringLayout.WEST, libPanel);
-		sl_libPanel.putConstraint(SpringLayout.SOUTH, list, 294, SpringLayout.NORTH, libPanel);
-		sl_libPanel.putConstraint(SpringLayout.EAST, list, 122, SpringLayout.WEST, libPanel);
-		libPanel.add(list);
-		
 		JButton btnDelete = new JButton("Delete");
+		sl_libPanel.putConstraint(SpringLayout.NORTH, btnDelete, 300, SpringLayout.NORTH, libPanel);
+		sl_libPanel.putConstraint(SpringLayout.EAST, btnDelete, -10, SpringLayout.EAST, libPanel);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				removeChunk(list.getSelectedValue());
 			}
 		});
-		sl_libPanel.putConstraint(SpringLayout.NORTH, btnDelete, 6, SpringLayout.SOUTH, list);
-		sl_libPanel.putConstraint(SpringLayout.EAST, btnDelete, -10, SpringLayout.EAST, list);
 		libPanel.add(btnDelete);
 		
 		JButton btnSave = new JButton("Save");
@@ -378,6 +367,27 @@ public class ChunkEditor {
 		sl_libPanel.putConstraint(SpringLayout.NORTH, btnSave, 0, SpringLayout.SOUTH, btnDelete);
 		sl_libPanel.putConstraint(SpringLayout.WEST, btnSave, 10, SpringLayout.WEST, libPanel);
 		libPanel.add(btnSave);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		sl_libPanel.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, libPanel);
+		sl_libPanel.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, libPanel);
+		sl_libPanel.putConstraint(SpringLayout.SOUTH, scrollPane, -6, SpringLayout.NORTH, btnDelete);
+		sl_libPanel.putConstraint(SpringLayout.EAST, scrollPane, 122, SpringLayout.WEST, libPanel);
+		libPanel.add(scrollPane);
+		
+		list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(list);
+		sl_libPanel.putConstraint(SpringLayout.NORTH, list, 211, SpringLayout.NORTH, libPanel);
+		sl_libPanel.putConstraint(SpringLayout.EAST, list, 73, SpringLayout.WEST, libPanel);
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selectChunk();
+			}
+		});
+		sl_libPanel.putConstraint(SpringLayout.SOUTH, list, -24, SpringLayout.NORTH, btnDelete);
+		sl_libPanel.putConstraint(SpringLayout.WEST, list, 0, SpringLayout.WEST, btnSave);
 	}
 	
 	private void createNewChunk() {
