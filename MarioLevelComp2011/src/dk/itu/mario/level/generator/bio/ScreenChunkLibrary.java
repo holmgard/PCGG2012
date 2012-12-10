@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NavigableMap;
@@ -182,6 +185,72 @@ public class ScreenChunkLibrary {
 		}
 		
 		return sc;
+	}
+	
+	ArrayList<ScreenChunk> schunks;
+	
+	private static Comparator<ScreenChunk> scComparator = new Comparator<ScreenChunk>() {
+		public int compare(ScreenChunk sc1, ScreenChunk sc2) {
+			if (sc1.getValue() > sc2.getValue())
+				return 1;
+			else if (sc1.getValue() < sc2.getValue())
+				return -1;
+			else
+				return 0;
+		}
+	};
+	
+	public void prepGetChunk2() {
+		schunks = new ArrayList<ScreenChunk>();
+		
+		for (ScreenChunk sc : lib.values()) {
+			schunks.add(sc);
+		}
+		
+		Collections.sort(schunks, scComparator);
+	}
+	
+	public ScreenChunk getChunk2(float arousal, List<byte[]> windowsIn) {
+		
+		int ind = 0;
+		// Find s chunk where value is just greater than arousal
+		for (ScreenChunk sc : schunks) {
+			if (sc.getValue() > arousal)
+				break;
+			++ind;
+		}
+		
+		int lb = ind; // Lower bound
+		for (int i = ind - 1; i >= 0; --i) {
+			ScreenChunk sc = schunks.get(i);
+			if (sc.getValue() < arousal - halfrange)
+				break;
+			lb--;
+		}
+		
+		int hb = ind; // Higher bound
+		for (int i = ind + 1; i < schunks.size(); ++i) {
+			ScreenChunk sc = schunks.get(i);
+			if (sc.getValue() > arousal + halfrange)
+				break;
+			hb++;
+		}
+		
+		if (lb != hb) {
+			List<ScreenChunk> subList = schunks.subList(lb, hb);
+			ScreenChunk sc = subList.get(random.nextInt(subList.size()));
+			while (!windowsOverlap(windowsIn, sc.getInWindows()))
+				sc = subList.get(random.nextInt(subList.size()));
+			return sc;
+		} else {
+			ScreenChunk sc = schunks.get(ind);
+			while (!windowsOverlap(windowsIn, sc.getInWindows())) {
+				++ind;
+				ind %= schunks.size();
+				sc = schunks.get(ind);
+			}
+			return sc;
+		}
 	}
 	
 	private boolean windowsOverlap(List<byte[]> windowsIn, List<byte[]> windowsOut) {
