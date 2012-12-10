@@ -204,7 +204,7 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		        else
 		        toRandomGame();*/
 		        
-		        scene = new BaselineScene(this, 3);
+		        scene = new BaselineScene(this, 30);
 		        scene.init();
 
 		        float correction = 0f;

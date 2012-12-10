@@ -1,6 +1,8 @@
 package dk.itu.mario.level.generator.bio;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import dk.itu.biologger.PhysioLogger;
 import dk.itu.mario.MarioInterface.GamePlay;
@@ -33,7 +35,8 @@ public class BioLevelGenerator implements LevelGenerator {
 		
 		BioLevel level = new BioLevel(320,true);
 		
-		level.saveLevel(new File("level.res"));
+		String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		level.saveLevel(new File(timestamp + "_level.res"));
 		System.out.println("level Saved");
 		
 		/*BioLevel level = new BioLevel(new File("level.res"));
