@@ -42,7 +42,7 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    private static final long serialVersionUID = 739318775993206607L;
 
 		    public int biologgerPort;
-		    
+		    PhysioLogger physLogger;
 		    
 		    public static final int TICKS_PER_SECOND = 24;
 
@@ -176,7 +176,7 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    {
 		    	String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 		    	
-		    	PhysioLogger physLogger = new PhysioLogger(scene);
+		    	physLogger = new PhysioLogger();
 		    	physLogger.initBioLogging();
 
 		        graphicsConfiguration = getGraphicsConfiguration();
@@ -204,7 +204,7 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		        else
 		        toRandomGame();*/
 		        
-		        scene = new BaselineScene(this, 30);
+		        scene = new BaselineScene(this, 3);
 		        scene.init();
 
 		        float correction = 0f;
@@ -383,7 +383,8 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    	//long seed = new Random().nextLong();
 		    	long seed = 3224411591760346650l;
 		    	System.out.println(seed);
-				randomLevel = new LevelSceneTest(graphicsConfiguration,this,seed,levelDifficulty ,0,false);
+				//randomLevel = new LevelSceneTest(graphicsConfiguration,this,seed,levelDifficulty ,0,false);
+				randomLevel = new LevelSceneTest(graphicsConfiguration,this,seed,levelDifficulty ,0,false,physLogger);
 		    	//randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,false);
 
 		    	Mario.fire = false;
@@ -394,12 +395,12 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    	randomLevel.init();
 		    	randomLevel.setSound(sound);
 		    	scene = randomLevel;
-
 		    }
 
 		    public void toCustomGame(){
 
-		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,true);
+		    	//randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,true);
+		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,true,physLogger);
 
 		    	Mario.fire = false;
 		    	Mario.large = false;
@@ -409,7 +410,6 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    	randomLevel.init();
 		    	randomLevel.setSound(sound);
 		    	scene = randomLevel;
-
 		    }
 
 		    public void lose(){
@@ -457,7 +457,10 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 			}
 
 			public void baseline() {
-				toRandomGame();
+				if(isCustom)
+					toCustomGame();
+				else
+					toRandomGame();
 			}
 			
 //			protected void processWindowEvent(WindowEvent e) {

@@ -10,13 +10,13 @@ import java.util.Map;
 import dk.itu.mario.level.generator.bio.BioLevel;
 import dk.itu.mario.level.generator.bio.ScreenChunkWrapper;
 import dk.itu.mario.scene.LevelScene;
-import dk.itu.mario.scene.Scene;
+import dk.itu.mario.scene.Scene; 
 
 public class PhysioLogger {
 	
 	private StringBuilder log;
 	EmpaticaHandler biologger;
-	LevelScene level;
+	BioLevel level;
 	
 	ArrayList<InterpolatedSample> interPhasic;
 	ArrayList<InterpolatedSample> interTonic;
@@ -30,18 +30,17 @@ public class PhysioLogger {
 	 */
 	
 	
-	public PhysioLogger(Scene scene) {
+	public PhysioLogger() {
 		log = new StringBuilder();
 		log.append("MarioTime\tPhasicTime\tPhasicChannel\tPhasicData\tTonicTime\tTonicChannel\tDataTonic\tBVPTime\tBVPChannel\tBVPData\n");
 		interPhasic = new ArrayList<InterpolatedSample>();
 		interTonic = new ArrayList<InterpolatedSample>();
 		interBVP = new ArrayList<InterpolatedSample>();
-		level = (LevelScene)scene;
 	}
 
 	public void initBioLogging(){
 		
-		biologger = new EmpaticaHandler("localhost",49172);
+		biologger = new EmpaticaHandler("localhost",54197);
 		//biologger = new EmpaticaHandler(true);
     	//biologger.autoConnect();
 		biologger.connect();
@@ -121,18 +120,18 @@ public class PhysioLogger {
         this.analyzeSignal();
 	}
 	
+	public void setLevel(BioLevel level)
+	{
+		this.level = level;
+	}
+	
 	public void analyzeSignal()
 	{
-		PhysioAnalyzer analyzer = new PhysioAnalyzer(level, interPhasic);
+		PhysioAnalyzer analyzer = new PhysioAnalyzer(interPhasic);
 		analyzer.analyze();
 		analyzer.smoothSamples();
-		try{
-			BioLevel bl = (BioLevel)level.level;
-			List<ScreenChunkWrapper> scwl = bl.getChunkLevel();
-			analyzer.saveChunkData(scwl);
-		} catch (Exception e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+		analyzer.saveSamples();
+		List<ScreenChunkWrapper> scwl = level.getChunkLevel();
+		analyzer.saveChunkData(scwl);
 	}
 }

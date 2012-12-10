@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import dk.itu.mario.engine.sprites.SpriteTemplate;
 import dk.itu.mario.level.Level;
@@ -25,8 +26,11 @@ public class BioLevel extends Level {
 	private ScreenChunkWrapper[] chunkPosition;
 	public static final int HEIGHT = 15;
 
-	public BioLevel(int width) {
-		width = generateLevel(width);
+	public BioLevel(int width, boolean randomLevel) {
+		if(!randomLevel)
+			width = generateLevel(width);
+		else
+			width = generateRandomLevel(width);
 		
 		this.width = width;
         this.height = HEIGHT;
@@ -40,7 +44,7 @@ public class BioLevel extends Level {
         
         findExit();
 	}
-	
+
 	//TODO: constructor from file
 	public BioLevel(File file) {
 		ArrayList<Integer> chunkLevelId = null;
@@ -142,6 +146,26 @@ public class BioLevel extends Level {
 		*/
 	}
 	
+	private int generateRandomLevel(int width) {
+		// TODO Auto-generated method stub
+		chunkLevel = new ArrayList<ScreenChunkWrapper>();
+		ArrayList<ScreenChunkWrapper> chunkInd = new ArrayList<ScreenChunkWrapper>();
+		ScreenChunkLibrary scl = ScreenChunkLibrary.getInstance();
+		
+		Random random = new Random();
+		
+		int widthSoFar = 0;
+		while(widthSoFar < width)
+		{
+			ScreenChunk chunk = scl.getChunk( random.nextInt(scl.getNumOfChunks() ));
+			ScreenChunkWrapper newChunk = new ScreenChunkWrapper(widthSoFar, chunk);
+			widthSoFar += chunk.getWidth();
+			chunkLevel.add(newChunk);
+		}
+		
+		return widthSoFar;
+	}
+	
 	private int generateLevel(int width) {
 		chunkLevel = new ArrayList<ScreenChunkWrapper>();
 		ArrayList<ScreenChunkWrapper> chunkInd = new ArrayList<ScreenChunkWrapper>();
@@ -149,10 +173,11 @@ public class BioLevel extends Level {
 		
 		BioCurve curve = new BioCurve();
 		
-		scl.calcSearchTree();
+		//scl.calcSearchTree();
+		scl.prepGetChunk2();
 		
 		int x = 0;
-		ScreenChunk lastsc = scl.getChunk(curve.curve(0), null); //TODO: get arousal from curve(x)
+		ScreenChunk lastsc = scl.getChunk2(curve.curve(0), null); //TODO: get arousal from curve(x)
 		ScreenChunkWrapper w = new ScreenChunkWrapper(x, lastsc);
 		chunkLevel.add(w);
 		x += lastsc.getWidth();
@@ -160,7 +185,7 @@ public class BioLevel extends Level {
 			chunkInd.add(w);
 		
 		while (x < width) {
-			ScreenChunk sc = scl.getChunk(curve.curve((float)x / width), lastsc.getOutWindows()); //TODO: get arousal from curve(x)
+			ScreenChunk sc = scl.getChunk2(curve.curve((float)x / width), lastsc.getOutWindows()); //TODO: get arousal from curve(x)
 			w = new ScreenChunkWrapper(x, sc);
 			chunkLevel.add(w);
 			x += sc.getWidth();
@@ -169,7 +194,7 @@ public class BioLevel extends Level {
 				chunkInd.add(w);
 		}
 		
-		chunkPosition = new ScreenChunkWrapper[chunkInd.size()];
+		chunkPosition = new ScreenChunkWrapper[chunkInd.size()]; //TODO maybe remove this
 		chunkPosition = chunkInd.toArray(chunkPosition);
 		
 		return x;

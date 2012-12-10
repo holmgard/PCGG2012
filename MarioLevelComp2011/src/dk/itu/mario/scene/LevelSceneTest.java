@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+import dk.itu.biologger.PhysioLogger;
 import dk.itu.mario.level.BgLevelGenerator;
 import dk.itu.mario.MarioInterface.GamePlay;
 import dk.itu.mario.engine.sonar.FixedSoundSource;
@@ -37,12 +38,20 @@ import dk.itu.mario.res.ResourcesManager;
 			private int point = -1;
 			private int []checkPoints;
 			private boolean isCustom;
+			private PhysioLogger physLogger;
 
 
 			public LevelSceneTest(GraphicsConfiguration graphicsConfiguration,
 					IMarioComponent renderer, long seed, int levelDifficulty, int type,boolean isCustom){
 				super(graphicsConfiguration,renderer,seed,levelDifficulty,type);
 				this.isCustom = isCustom;
+			}
+			
+			public LevelSceneTest(GraphicsConfiguration graphicsConfiguration,
+					IMarioComponent renderer, long seed, int levelDifficulty, int type,boolean isCustom, PhysioLogger physLogger){
+				super(graphicsConfiguration,renderer,seed,levelDifficulty,type);
+				this.isCustom = isCustom;
+				this.physLogger = physLogger;
 			}
 
 			public void init() {
@@ -59,7 +68,7 @@ import dk.itu.mario.res.ResourcesManager;
 		        if(level==null)
 		        	if(isCustom){
 		        		//CustomizedLevelGenerator clg = new CustomizedLevelGenerator();
-		        		BioLevelGenerator clg = new BioLevelGenerator();
+		        		BioLevelGenerator clg = new BioLevelGenerator(physLogger);
 		        		GamePlay gp = new GamePlay();
 		        		gp = gp.read("player.txt");
 		        		currentLevel = (Level)clg.generateLevel(gp);
@@ -123,6 +132,7 @@ import dk.itu.mario.res.ResourcesManager;
 		    		recorder = new DataRecorder(this,(RandomLevel)level,keys);
 
 		        gameStarted = false;
+		        
 			}
 
 

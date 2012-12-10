@@ -616,6 +616,8 @@ public class ScreenChunkEditor {
 		levelDrawer.setMap(map);
 		levelDrawer.setSprites(sprites);
 		levelDrawer.repaint();
+		
+		System.out.println("Screen chunk arousal value: " + currentScreenChunk.getValue());
 	}
 	
 	private void selectChunk() {

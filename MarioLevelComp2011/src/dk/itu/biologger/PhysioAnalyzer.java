@@ -33,9 +33,8 @@ public class PhysioAnalyzer {
 	 * 
 	 * @param level The level that the physio-recordings were made from
 	 */
-	public PhysioAnalyzer(LevelScene level, ArrayList<InterpolatedSample> phasicSamples)
+	public PhysioAnalyzer(ArrayList<InterpolatedSample> phasicSamples)
 	{
-		this.level = level;
 		this.phasicSamples = phasicSamples;
 	}
 	
@@ -55,7 +54,7 @@ public class PhysioAnalyzer {
 	 * @param tileEnd The last tile of the chunk.
 	 * @return
 	 */
-	public float getChunkMean(float tileStart, float tileEnd)
+	public float getScreenChunkMean(float tileStart, float tileEnd)
 	{
 		if(normalizedSamples == null)
 			this.analyze();
@@ -74,7 +73,9 @@ public class PhysioAnalyzer {
 			}
 		}
 		
-		float mean = cumulativeSum/(float)count;
+		float mean = 0.0f;
+		if(count > 0)
+			mean = cumulativeSum/(float)count; 
 		return mean;
 	}
 	
@@ -134,7 +135,7 @@ public class PhysioAnalyzer {
 		writer.writeData();
 	}
 	
-	public void saveChunkData(List<ScreenChunkWrapper> screenChunks) throws Exception
+	public void saveChunkData(List<ScreenChunkWrapper> screenChunks)
 	{
 		ScreenChunkLibrary scLib = ScreenChunkLibrary.getInstance();
 		
@@ -145,7 +146,7 @@ public class PhysioAnalyzer {
 		String header =	"@RELATION trainingData_" + timestamp + "\n\n";
 		for(int i = 0; i < scLib.getNumOfChunks(); i++)
 		{
-			header += "@ATTRIBUTE chunk" + i + "\n";
+			header += "@ATTRIBUTE chunk" + i + " NUMERIC\n";
 		}
 		header += "@ATTRIBUTE arousal NUMERIC\n\n";
 		header += "@DATA\n";
@@ -155,25 +156,38 @@ public class PhysioAnalyzer {
 		{
 			String observation = "";
 			List<Chunk> chunks = screenChunk.sc.getChunks(null);
-			if(chunks.size() > 5) throw new Exception("More chunks in screenchunk than supported");
 			
-			int count = 0;
-			for(Chunk chunk : chunks)
+			//Count the number of each kind of chunk in the screenchunk
+			int[] chunkCounts = new int[scLib.getNumOfChunks()];
+			for(int i = 0; i < scLib.getNumOfChunks(); i++)
 			{
-				observation += Integer.toString(chunk.getId());
-				observation += ",";
-				count++;
+				chunkCounts[i] = 0;
+				for(Chunk chunk : chunks)
+				{
+					if(chunk.getId() == i)
+					{
+						chunkCounts[i] += 1;
+					}
+				}
 			}
-			for(int i = count; i < 5; i++)
+			
+			//Add the chunkcounts to the observations
+			for(int j = 0; j < chunkCounts.length; j++)
 			{
-				observation += "-1";
-				observation += ",";
+				observation += Integer.toString(chunkCounts[j]) + ",";
 			}
-			float chunkMean = this.getChunkMean(screenChunk.x, (screenChunk.x + screenChunk.sc.getWidth()) );
-			observation += chunkMean;
-			observation += "\n";
-			outString.append(observation);
+			
+			float chunkMean = this.getScreenChunkMean(screenChunk.x, (screenChunk.x + screenChunk.sc.getWidth()) );
+			
+			if(chunkMean > 0){
+				observation += chunkMean;
+				observation += "\n";
+				outString.append(observation);
+			}
 		}
+		
+		
+		
 		try {
 			FileWriter file = new FileWriter(new File("trainingSamples" + "_" + timestamp + ".arff"));
 			file.write(outString.toString());

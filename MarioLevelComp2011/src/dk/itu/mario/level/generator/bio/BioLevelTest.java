@@ -100,7 +100,7 @@ public class BioLevelTest {
 		}
 		
 		scl.calcSearchTree();
-		BioLevel gen = new BioLevel(320);
+		BioLevel gen = new BioLevel(320,false);
 		gen.saveLevel(new File("gen.res"));
 		System.out.println("Gen Saved");
 		
