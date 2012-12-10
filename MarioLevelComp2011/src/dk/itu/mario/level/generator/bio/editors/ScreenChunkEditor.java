@@ -32,6 +32,7 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import javax.swing.ListSelectionModel;
 
 public class ScreenChunkEditor {
 
@@ -396,30 +397,17 @@ public class ScreenChunkEditor {
 		SpringLayout sl_panel_1 = new SpringLayout();
 		panel_1.setLayout(sl_panel_1);
 		
-		screenList = new JList<Integer>();
-		screenList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				selectScreenChunk();
-			}
-		});
-		sl_panel_1.putConstraint(SpringLayout.NORTH, screenList, 10, SpringLayout.NORTH, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.WEST, screenList, 10, SpringLayout.WEST, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.SOUTH, screenList, 379, SpringLayout.NORTH, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.EAST, screenList, 188, SpringLayout.WEST, panel_1);
-		panel_1.add(screenList);
-		
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				removeScreenChunk();
 			}
 		});
-		sl_panel_1.putConstraint(SpringLayout.NORTH, btnRemove, 6, SpringLayout.SOUTH, screenList);
-		sl_panel_1.putConstraint(SpringLayout.EAST, btnRemove, -10, SpringLayout.EAST, panel_1);
 		panel_1.add(btnRemove);
 		
 		JButton btnSaveLibrary = new JButton("Save Library");
+		sl_panel_1.putConstraint(SpringLayout.NORTH, btnRemove, 0, SpringLayout.NORTH, btnSaveLibrary);
+		sl_panel_1.putConstraint(SpringLayout.WEST, btnRemove, 6, SpringLayout.EAST, btnSaveLibrary);
 		btnSaveLibrary.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -434,6 +422,27 @@ public class ScreenChunkEditor {
 		sl_panel_1.putConstraint(SpringLayout.WEST, btnSaveLibrary, 10, SpringLayout.WEST, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.SOUTH, btnSaveLibrary, -10, SpringLayout.SOUTH, panel_1);
 		panel_1.add(btnSaveLibrary);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		sl_panel_1.putConstraint(SpringLayout.NORTH, scrollPane_1, 10, SpringLayout.NORTH, panel_1);
+		sl_panel_1.putConstraint(SpringLayout.WEST, scrollPane_1, 10, SpringLayout.WEST, panel_1);
+		sl_panel_1.putConstraint(SpringLayout.SOUTH, scrollPane_1, -6, SpringLayout.NORTH, btnRemove);
+		sl_panel_1.putConstraint(SpringLayout.EAST, scrollPane_1, 188, SpringLayout.WEST, panel_1);
+		panel_1.add(scrollPane_1);
+		
+		screenList = new JList<Integer>();
+		scrollPane_1.setViewportView(screenList);
+		sl_panel_1.putConstraint(SpringLayout.SOUTH, screenList, 348, SpringLayout.NORTH, panel_1);
+		sl_panel_1.putConstraint(SpringLayout.EAST, screenList, 188, SpringLayout.WEST, panel_1);
+		screenList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		screenList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectScreenChunk();
+			}
+		});
+		sl_panel_1.putConstraint(SpringLayout.WEST, screenList, 0, SpringLayout.WEST, btnSaveLibrary);
+		sl_panel_1.putConstraint(SpringLayout.NORTH, screenList, 18, SpringLayout.SOUTH, scrollPane_1);
 	}
 	
 	private void populateChunkCombo() {

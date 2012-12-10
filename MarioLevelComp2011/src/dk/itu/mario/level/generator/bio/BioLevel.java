@@ -244,7 +244,7 @@ class BioCurve {
 	public float curve(float x) {
 		if (x < 0f || x > 1f)
 			return 0f;
-		
+		/*
 		//ugly interpolation based on hard coded values
 		if (x < 0.25f) {
 			float a = x / 0.25f;
@@ -255,12 +255,25 @@ class BioCurve {
 		} else if (x < 0.75f) {
 			float a = (x - 0.5f) / 0.25f;
 			return points[2] + (points[3] - points[2]) * a;
-		/*} else if (x < 0.8f) {
-			float a = (x - 0.6f) / 0.2f;
-			return points[3] + (points[4] - points[3]) * a;*/
 		} else {
 			float a = (x - 0.75f) / 0.25f;
 			return points[3] + (points[4] - points[3]) * a;
+		}*/
+		
+		float s = 1f / (points.length - 1);
+		int p1 = points.length - 1;
+		int p0 = p1 - 1;
+		
+		int i = 1;
+		while (x < 1f - i * s) {
+			--p1;
+			--p0;
+			++i;
 		}
+		
+		--i;
+		float a = (x - (1f - i * s)) / s;
+		
+		return points[p0] + (points[p1] - points[p0] * a);
 	}
 }
