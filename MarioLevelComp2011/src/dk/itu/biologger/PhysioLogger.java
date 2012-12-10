@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import dk.itu.mario.level.generator.bio.BioLevel;
+import dk.itu.mario.level.generator.bio.ScreenChunkWrapper;
 import dk.itu.mario.scene.LevelScene;
 import dk.itu.mario.scene.Scene;
 
@@ -123,5 +126,13 @@ public class PhysioLogger {
 		PhysioAnalyzer analyzer = new PhysioAnalyzer(level, interPhasic);
 		analyzer.analyze();
 		analyzer.smoothSamples();
+		try{
+			BioLevel bl = (BioLevel)level.level;
+			List<ScreenChunkWrapper> scwl = bl.getChunkLevel();
+			analyzer.saveChunkData(scwl);
+		} catch (Exception e){
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 }

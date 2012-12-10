@@ -1,7 +1,17 @@
 package dk.itu.biologger;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
+import dk.itu.mario.level.generator.bio.Chunk;
+import dk.itu.mario.level.generator.bio.ScreenChunk;
+import dk.itu.mario.level.generator.bio.ScreenChunkLibrary;
+import dk.itu.mario.level.generator.bio.ScreenChunkWrapper;
 import dk.itu.mario.scene.LevelScene;
 
 public class PhysioAnalyzer {
@@ -45,7 +55,7 @@ public class PhysioAnalyzer {
 	 * @param tileEnd The last tile of the chunk.
 	 * @return
 	 */
-	public float getLevelChunkMean(float tileStart, float tileEnd)
+	public float getChunkMean(float tileStart, float tileEnd)
 	{
 		if(normalizedSamples == null)
 			this.analyze();
@@ -122,5 +132,54 @@ public class PhysioAnalyzer {
 		//writer.writeData();
 		writer = new DataWriter("normalized", normalizedSamples);
 		writer.writeData();
+	}
+	
+	public void saveChunkData(List<ScreenChunkWrapper> screenChunks) throws Exception
+	{
+		ScreenChunkLibrary scLib = ScreenChunkLibrary.getInstance();
+		
+		
+		String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		StringBuilder outString = new StringBuilder();
+		
+		String header =	"@RELATION trainingData_" + timestamp + "\n\n";
+		for(int i = 0; i < scLib.getNumOfChunks(); i++)
+		{
+			header += "@ATTRIBUTE chunk" + i + "\n";
+		}
+		header += "@ATTRIBUTE arousal NUMERIC\n\n";
+		header += "@DATA\n";
+		outString.append(header);
+		
+		for(ScreenChunkWrapper screenChunk : screenChunks)
+		{
+			String observation = "";
+			List<Chunk> chunks = screenChunk.sc.getChunks(null);
+			if(chunks.size() > 5) throw new Exception("More chunks in screenchunk than supported");
+			
+			int count = 0;
+			for(Chunk chunk : chunks)
+			{
+				observation += Integer.toString(chunk.getId());
+				observation += ",";
+				count++;
+			}
+			for(int i = count; i < 5; i++)
+			{
+				observation += "-1";
+				observation += ",";
+			}
+			float chunkMean = this.getChunkMean(screenChunk.x, (screenChunk.x + screenChunk.sc.getWidth()) );
+			observation += chunkMean;
+			observation += "\n";
+			outString.append(observation);
+		}
+		try {
+			FileWriter file = new FileWriter(new File("trainingSamples" + "_" + timestamp + ".arff"));
+			file.write(outString.toString());
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

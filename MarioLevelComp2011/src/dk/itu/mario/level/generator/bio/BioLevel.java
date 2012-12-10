@@ -212,8 +212,12 @@ public class BioLevel extends Level {
 		
 		return list;
 	}
+	
+	public List<ScreenChunkWrapper> getChunkLevel(){
+		return chunkLevel;
+	}
 }
-
+/*
 class ScreenChunkWrapper {
 	int x;
 	ScreenChunk sc;
@@ -222,7 +226,7 @@ class ScreenChunkWrapper {
 		this.x = x;
 		this.sc = sc;
 	}
-}
+}*/
 
 class BioCurve {
 	float[] points;
