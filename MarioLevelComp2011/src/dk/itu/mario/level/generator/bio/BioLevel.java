@@ -212,15 +212,9 @@ public class BioLevel extends Level {
 		
 		return list;
 	}
-}
-
-class ScreenChunkWrapper {
-	int x;
-	ScreenChunk sc;
 	
-	public ScreenChunkWrapper(int x, ScreenChunk sc) {
-		this.x = x;
-		this.sc = sc;
+	public List<ScreenChunkWrapper> getChunkLevel(){
+		return chunkLevel;
 	}
 }
 
