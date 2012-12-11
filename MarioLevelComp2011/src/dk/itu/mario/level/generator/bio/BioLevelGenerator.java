@@ -33,7 +33,7 @@ public class BioLevelGenerator implements LevelGenerator {
 		
 		scl.calcSearchTree();
 		
-		BioLevel level = new BioLevel(320,true);
+		BioLevel level = new BioLevel(320*2,true);
 		
 		String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 		level.saveLevel(new File(timestamp + "_level.res"));

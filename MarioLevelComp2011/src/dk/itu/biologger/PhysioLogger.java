@@ -40,7 +40,7 @@ public class PhysioLogger {
 
 	public void initBioLogging(){
 		
-		biologger = new EmpaticaHandler("localhost",54197);
+		biologger = new EmpaticaHandler("localhost",49301);
 		//biologger = new EmpaticaHandler(true);
     	//biologger.autoConnect();
 		biologger.connect();
@@ -103,6 +103,8 @@ public class PhysioLogger {
         	if(latestBVP.size() > 0)
         		saveToMemory(t,latestBVP,interBVP,marioX);
         }
+        if(interPhasic != null && interPhasic.size() > 0)
+        	System.out.println(interPhasic.get(interPhasic.size()-1).getValue() + " " + interBVP.get(interBVP.size() -1).getValue());
     }
 	
 	public void saveToMemory(int readingFrame, ArrayList<EmpaticaSample> samples, ArrayList<InterpolatedSample> targetList, float marioX)
