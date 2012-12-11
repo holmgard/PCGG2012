@@ -257,7 +257,7 @@ public class Mario extends Sprite
             facing = -1;
         }
 
-        if (keys[KEY_JUMP] || (jumpTime < 0 && !onGround && !sliding))
+        if (keys[KEY_JUMP] || keys[KEY_UP] || (jumpTime < 0 && !onGround && !sliding)) //ADDED UP KEY TO ENABLE JUMP
         {
             if (jumpTime < 0)
             {

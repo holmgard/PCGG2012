@@ -4,16 +4,23 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import dk.itu.biologger.PhysioLogger;
+import dk.itu.biologger.EmpaticaPhysioLogger;
+import dk.itu.biologger.LightstonePhysioLogger;
 import dk.itu.mario.MarioInterface.GamePlay;
 import dk.itu.mario.MarioInterface.LevelGenerator;
 import dk.itu.mario.MarioInterface.LevelInterface;
 
 public class BioLevelGenerator implements LevelGenerator {
 
-	PhysioLogger physLogger;
+	//EmpaticaPhysioLogger physLogger;
+	LightstonePhysioLogger physLogger;
 	
-	public BioLevelGenerator(PhysioLogger physLogger)
+	/*public BioLevelGenerator(EmpaticaPhysioLogger physLogger)
+	{
+		this.physLogger = physLogger;
+	}*/
+	
+	public BioLevelGenerator(LightstonePhysioLogger physLogger)
 	{
 		this.physLogger = physLogger;
 	}

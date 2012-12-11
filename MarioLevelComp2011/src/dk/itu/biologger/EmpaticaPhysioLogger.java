@@ -12,7 +12,7 @@ import dk.itu.mario.level.generator.bio.ScreenChunkWrapper;
 import dk.itu.mario.scene.LevelScene;
 import dk.itu.mario.scene.Scene; 
 
-public class PhysioLogger {
+public class EmpaticaPhysioLogger {
 	
 	private StringBuilder log;
 	EmpaticaHandler biologger;
@@ -30,7 +30,7 @@ public class PhysioLogger {
 	 */
 	
 	
-	public PhysioLogger() {
+	public EmpaticaPhysioLogger() {
 		log = new StringBuilder();
 		log.append("MarioTime\tPhasicTime\tPhasicChannel\tPhasicData\tTonicTime\tTonicChannel\tDataTonic\tBVPTime\tBVPChannel\tBVPData\n");
 		interPhasic = new ArrayList<InterpolatedSample>();

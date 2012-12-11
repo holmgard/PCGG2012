@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-import dk.itu.biologger.PhysioLogger;
+import dk.itu.biologger.EmpaticaPhysioLogger;
+import dk.itu.biologger.LightstonePhysioLogger;
 import dk.itu.mario.level.BgLevelGenerator;
 import dk.itu.mario.MarioInterface.GamePlay;
 import dk.itu.mario.engine.sonar.FixedSoundSource;
@@ -38,7 +39,8 @@ import dk.itu.mario.res.ResourcesManager;
 			private int point = -1;
 			private int []checkPoints;
 			private boolean isCustom;
-			private PhysioLogger physLogger;
+			//private EmpaticaPhysioLogger physLogger;
+			private LightstonePhysioLogger physLogger;
 
 
 			public LevelSceneTest(GraphicsConfiguration graphicsConfiguration,
@@ -47,8 +49,15 @@ import dk.itu.mario.res.ResourcesManager;
 				this.isCustom = isCustom;
 			}
 			
+			/*public LevelSceneTest(GraphicsConfiguration graphicsConfiguration,
+					IMarioComponent renderer, long seed, int levelDifficulty, int type,boolean isCustom, EmpaticaPhysioLogger physLogger){
+				super(graphicsConfiguration,renderer,seed,levelDifficulty,type);
+				this.isCustom = isCustom;
+				this.physLogger = physLogger;
+			}*/
+			
 			public LevelSceneTest(GraphicsConfiguration graphicsConfiguration,
-					IMarioComponent renderer, long seed, int levelDifficulty, int type,boolean isCustom, PhysioLogger physLogger){
+					IMarioComponent renderer, long seed, int levelDifficulty, int type,boolean isCustom, LightstonePhysioLogger physLogger){
 				super(graphicsConfiguration,renderer,seed,levelDifficulty,type);
 				this.isCustom = isCustom;
 				this.physLogger = physLogger;

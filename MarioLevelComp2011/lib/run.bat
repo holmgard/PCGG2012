@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Java\jre7\bin\java.exe" -cp jlsm.jar;jchart2d-2.2.2.jar;commons-logging-1.1.jar;commons-math-1.2.jar;commons-collections-3.2.jar;jna.jar;jna-examples.jar;log4j-1.2.14.jar;spring-core.jar;spring-beans.jar com.jlsm.view.Main

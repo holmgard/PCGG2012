@@ -23,7 +23,8 @@ import javax.swing.*;
 
 import dk.itu.biologger.EmpaticaHandler;
 import dk.itu.biologger.EmpaticaSample;
-import dk.itu.biologger.PhysioLogger;
+import dk.itu.biologger.EmpaticaPhysioLogger;
+import dk.itu.biologger.LightstonePhysioLogger;
 import dk.itu.mario.level.Level;
 import dk.itu.mario.scene.BaselineScene;
 import dk.itu.mario.scene.LevelScene;
@@ -42,7 +43,8 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    private static final long serialVersionUID = 739318775993206607L;
 
 		    public int biologgerPort;
-		    PhysioLogger physLogger;
+		    //EmpaticaPhysioLogger physLogger;
+		    LightstonePhysioLogger physLogger;
 		    
 		    public static final int TICKS_PER_SECOND = 24;
 
@@ -176,7 +178,8 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    {
 		    	String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 		    	
-		    	physLogger = new PhysioLogger();
+		    	//physLogger = new EmpaticaPhysioLogger();
+		    	physLogger = new LightstonePhysioLogger();
 		    	physLogger.initBioLogging();
 
 		        graphicsConfiguration = getGraphicsConfiguration();
