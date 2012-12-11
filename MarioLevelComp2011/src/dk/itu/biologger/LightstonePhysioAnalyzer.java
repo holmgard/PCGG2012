@@ -118,7 +118,7 @@ public class LightstonePhysioAnalyzer {
 		for(LightstoneInterpolatedSample sample : smoothedSamples)
 		{
 			float normalizedValue = (sample.getValue() - min) / max;
-			normalizedSamples.add(new LightstoneInterpolatedSample(sample.getType(), sample.getFrame(), (int)normalizedValue, sample.getHrv(), sample.getMarioX())); //TODO, convert to float values
+			normalizedSamples.add(new LightstoneInterpolatedSample(sample.getType(), sample.getFrame(), normalizedValue, sample.getHrv(), sample.getMarioX())); //TODO, convert to float values
 		}
 	}
 	
