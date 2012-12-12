@@ -21,6 +21,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 
 
+import dk.itu.biologger.ArousalPredictor;
 import dk.itu.biologger.EmpaticaHandler;
 import dk.itu.biologger.EmpaticaSample;
 import dk.itu.biologger.EmpaticaPhysioLogger;
@@ -59,7 +60,8 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		    private boolean focused = false;
 		    private boolean useScale2x = false;
 		    private boolean isCustom = false;
-
+		    
+		    public boolean isPersonalized = false;
 
 		    private Scale2x scale2x = new Scale2x(320, 240);
 
@@ -207,7 +209,7 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		        else
 		        toRandomGame();*/
 		        
-		        scene = new BaselineScene(this, 30);
+		        scene = new BaselineScene(this, 5);
 		        scene.init();
 
 		        float correction = 0f;
@@ -325,9 +327,21 @@ public class MarioComponentRecording extends JComponent implements Runnable, Key
 		        Art.stopMusic();
 		        
 		        physLogger.stop();
+		        physLogger.analyzeSignal();
 		        physLogger.write(timestamp);
 		        
+		        if(isPersonalized){
+		        	System.out.println("Finished personalized session");
+		        	System.exit(0);
+		        }
+		        
+		        ArousalPredictor aPred = new ArousalPredictor();
+		        aPred.init(physLogger.getFilename());    
+		        aPred.SavePersonalScreenChunkLibrary();
+		        System.out.println("Saved predictions to: " + physLogger.getFilename() + ".res");
+		        System.out.println("Finished learning session");
 		        System.exit(0);
+		        
 		    }
 		    
 		    private void drawString(Graphics g, String text, int x, int y, int c)

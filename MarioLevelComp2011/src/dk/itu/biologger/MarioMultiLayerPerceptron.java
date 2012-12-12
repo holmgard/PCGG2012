@@ -1613,6 +1613,11 @@ public class MarioMultiLayerPerceptron
       m_nextId++;
       temp.setX(.75);
       temp.setY((noa + 1.0) / (m_numClasses + 1));
+      
+      /*
+       * ADD OUTPUT VALUE HERE
+       */
+      
       addNode(temp);
       NeuralConnection.connect(temp, m_outputs[noa]);
     }
@@ -1655,6 +1660,11 @@ public class MarioMultiLayerPerceptron
 	m_nextId++;
 	temp.setX(.5 / (num) * noa + .25);
 	temp.setY((nob + 1.0) / (val + 1));
+	
+	/*
+	 * ADD HIDDEN VALUES HERE
+	 */
+	
 	addNode(temp);
 	if (noa > 0) {
 	  //then do connections

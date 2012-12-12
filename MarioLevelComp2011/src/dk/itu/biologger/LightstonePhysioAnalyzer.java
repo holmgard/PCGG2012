@@ -28,6 +28,7 @@ public class LightstonePhysioAnalyzer {
 	ArrayList<LightstoneInterpolatedSample> smoothedSamples;
 	ArrayList<LightstoneInterpolatedSample> interpolatedSamples;
 	ArrayList<LightstoneInterpolatedSample> normalizedSamples;
+	String filename = "";
 	
 	/**
 	 * 
@@ -77,6 +78,27 @@ public class LightstonePhysioAnalyzer {
 		if(count > 0)
 			mean = cumulativeSum/(float)count; 
 		return mean;
+	}
+	
+	public float getScreenChunkPeak(float tileStart, float tileEnd)
+	{
+		if(normalizedSamples == null)
+			this.analyze();
+		
+		ArrayList<LightstoneInterpolatedSample> temp = new ArrayList<LightstoneInterpolatedSample>();
+		float maxValue = 0f;
+		
+		for(LightstoneInterpolatedSample sample : normalizedSamples)
+		{
+			if(sample.getTile() >= tileStart && sample.getTile() <= tileEnd)
+			{
+				temp.add(sample);
+				if(sample.getValue() > maxValue)
+					maxValue = sample.getValue();
+			}
+		}
+		
+		return maxValue;
 	}
 	
 	/**
@@ -136,6 +158,10 @@ public class LightstonePhysioAnalyzer {
 		writer.writeData();
 	}
 	
+	public String getFilename(){
+		return filename;
+	}
+	
 	public void saveChunkData(List<ScreenChunkWrapper> screenChunks)
 	{
 		ScreenChunkLibrary scLib = ScreenChunkLibrary.getInstance();
@@ -149,7 +175,8 @@ public class LightstonePhysioAnalyzer {
 		{
 			header += "@ATTRIBUTE chunk" + i + " NUMERIC\n";
 		}
-		header += "@ATTRIBUTE arousal NUMERIC\n\n";
+		header += "@ATTRIBUTE arousalMean NUMERIC\n";
+		header += "@ATTRIBUTE arousalPeak NUMERIC\n\n";
 		header += "@DATA\n";
 		outString.append(header);
 		
@@ -179,9 +206,12 @@ public class LightstonePhysioAnalyzer {
 			}
 			
 			float chunkMean = this.getScreenChunkMean(screenChunk.x, (screenChunk.x + screenChunk.sc.getWidth()) );
+			float chunkPeak = this.getScreenChunkPeak(screenChunk.x, (screenChunk.x + screenChunk.sc.getWidth()) );
 			
-			if(chunkMean > 0){
+			if(chunkMean >= 0 && chunkPeak >= 0){
 				observation += chunkMean;
+				observation += ",";
+				observation += chunkPeak;
 				observation += "\n";
 				outString.append(observation);
 			}
@@ -190,7 +220,8 @@ public class LightstonePhysioAnalyzer {
 		
 		
 		try {
-			FileWriter file = new FileWriter(new File("trainingSamples" + "_" + timestamp + ".arff"));
+			filename = "trainingSamples" + "_" + timestamp + ".arff";
+			FileWriter file = new FileWriter(new File(filename));
 			file.write(outString.toString());
 			file.close();
 		} catch (IOException e) {

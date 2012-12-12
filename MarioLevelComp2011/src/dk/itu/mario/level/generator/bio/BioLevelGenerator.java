@@ -12,6 +12,8 @@ import dk.itu.mario.MarioInterface.LevelInterface;
 
 public class BioLevelGenerator implements LevelGenerator {
 
+	public static String personalizedSCL = "";
+	
 	//EmpaticaPhysioLogger physLogger;
 	LightstonePhysioLogger physLogger;
 	
@@ -31,7 +33,11 @@ public class BioLevelGenerator implements LevelGenerator {
 		
 		try {
 			cl.readLibFromFile(new File("chunkLibrary.res"));
-			scl.readLibFromFile(new File("screenChunkLibrary.res"));
+			
+			if(personalizedSCL.isEmpty())
+				scl.readLibFromFile(new File("screenChunkLibrary.res"));
+			else
+				scl.readLibFromFile(new File(personalizedSCL));
 			System.out.println("Chunk Libs Read");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -40,7 +46,12 @@ public class BioLevelGenerator implements LevelGenerator {
 		
 		scl.calcSearchTree();
 		
-		BioLevel level = new BioLevel(320*2,true);
+		BioLevel level;
+		if(personalizedSCL.isEmpty())
+			//level = new BioLevel(new File("standardbane.res"));
+			level = new BioLevel(320*2,true);
+		else
+			level = new BioLevel(320*2,false);
 		
 		String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 		level.saveLevel(new File(timestamp + "_level.res"));

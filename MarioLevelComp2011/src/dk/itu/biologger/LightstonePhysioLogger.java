@@ -17,6 +17,9 @@ public class LightstonePhysioLogger {
 	private StringBuilder log;
 	LightstoneWrapper biologger;
 	BioLevel level;
+	private String filename = "";
+	
+	public boolean isStopping = false;
 	
 	ArrayList<InterpolatedSample> interPhasic;
 	ArrayList<InterpolatedSample> interTonic;
@@ -65,9 +68,12 @@ public class LightstonePhysioLogger {
 	}
 	
 	public void logBio(int t, String timeString, float marioX){
+		
+		if(!isStopping)
+		{
     	ArrayList<LightstoneSample> latestSamples = biologger.getLatestSamples();
     	
-    	if(latestSamples.isEmpty())
+    	if(latestSamples == null || latestSamples.isEmpty())
     		return;
     	
     	
@@ -82,6 +88,7 @@ public class LightstonePhysioLogger {
         {
         	saveToMemory(t,latestSamples,interSamples,marioX);
         }
+		}
     }
 	
 	
@@ -94,8 +101,17 @@ public class LightstonePhysioLogger {
 	}
 	
 	public void stop() {
-		bioThread.interrupt();
+		isStopping = true;
 		biologger.stop();
+		/*try {
+			bioThread.interrupt();
+			bioThread.join();
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 		this.analyzeSignal();
 	}
 	
@@ -112,5 +128,10 @@ public class LightstonePhysioLogger {
 		analyzer.saveSamples();
 		List<ScreenChunkWrapper> scwl = level.getChunkLevel();
 		analyzer.saveChunkData(scwl);
+		filename = analyzer.getFilename();
+	}
+	
+	public String getFilename(){
+		return filename;
 	}
 }

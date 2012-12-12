@@ -26,6 +26,11 @@ public class BioLevel extends Level {
 	private ScreenChunkWrapper[] chunkPosition;
 	public static final int HEIGHT = 15;
 
+	public static void main(String[] args)
+	{
+		BioCurve theCurve = new BioCurve();
+	}
+	
 	public BioLevel(int width, boolean randomLevel) {
 		if(!randomLevel)
 			width = generateLevel(width);
@@ -273,7 +278,7 @@ class BioCurve {
 	public float curve(float x) {
 		if (x < 0f || x > 1f)
 			return 0f;
-		/*
+		
 		//ugly interpolation based on hard coded values
 		if (x < 0.25f) {
 			float a = x / 0.25f;
@@ -287,9 +292,9 @@ class BioCurve {
 		} else {
 			float a = (x - 0.75f) / 0.25f;
 			return points[3] + (points[4] - points[3]) * a;
-		}*/
+		}
 		
-		float s = 1f / (points.length - 1);
+		/*float s = 1f / (points.length - 1);
 		int p1 = points.length - 1;
 		int p0 = p1 - 1;
 		
@@ -303,6 +308,6 @@ class BioCurve {
 		--i;
 		float a = (x - (1f - i * s)) / s;
 		
-		return points[p0] + (points[p1] - points[p0] * a);
+		return points[p0] + (points[p1] - points[p0] * a);*/
 	}
 }
