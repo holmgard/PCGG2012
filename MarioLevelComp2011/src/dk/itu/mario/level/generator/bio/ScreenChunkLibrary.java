@@ -236,30 +236,40 @@ public class ScreenChunkLibrary {
 			hb++;
 		}
 		
-		if (lb != hb) {
+		if (lb != hb && windowsIn != null) //Christoffer did edit for first chunk in level
+		{
 			List<ScreenChunk> subList = schunks.subList(lb, hb);
 			ScreenChunk sc = subList.get(random.nextInt(subList.size()));
 			while (!windowsOverlap(windowsIn, sc.getInWindows()))
 				sc = subList.get(random.nextInt(subList.size()));
 			return sc;
-		} else {
-			ScreenChunk sc = schunks.get(ind);
+		} else if (windowsIn != null){
+			//ScreenChunk sc = schunks.get(ind);
+			ScreenChunk sc = schunks.get(ind-1); //Christoffer hack
 			while (!windowsOverlap(windowsIn, sc.getInWindows())) {
 				++ind;
 				ind %= schunks.size();
 				sc = schunks.get(ind);
 			}
 			return sc;
+		} else //Christoffer edit for first chunk in level 
+		{
+			Random rnd = new Random();
+			ScreenChunk sc = schunks.get(rnd.nextInt(schunks.size()));
+			return sc;
 		}
 	}
 	
 	private boolean windowsOverlap(List<byte[]> windowsIn, List<byte[]> windowsOut) {
-		for (byte[] in : windowsIn) {
-			for (byte[] out : windowsOut ) {
-				if (!(in[0] > out[1] || in[1] < out[0]))
-					return true;
+		//if(windowsIn != null && windowsOut != null)
+		//{
+			for (byte[] in : windowsIn) {
+				for (byte[] out : windowsOut ) {
+					if (!(in[0] > out[1] || in[1] < out[0]))
+						return true;
+				}
 			}
-		}
+		//}
 		
 		return false;
 	}

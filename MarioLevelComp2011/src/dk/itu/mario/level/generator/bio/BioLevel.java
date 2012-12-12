@@ -182,6 +182,7 @@ public class BioLevel extends Level {
 		scl.prepGetChunk2();
 		
 		int x = 0;
+		
 		ScreenChunk lastsc = scl.getChunk2(curve.curve(0), null); //TODO: get arousal from curve(x)
 		ScreenChunkWrapper w = new ScreenChunkWrapper(x, lastsc);
 		chunkLevel.add(w);
