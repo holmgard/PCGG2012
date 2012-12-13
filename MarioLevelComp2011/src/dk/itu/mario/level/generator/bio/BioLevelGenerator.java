@@ -49,7 +49,7 @@ public class BioLevelGenerator implements LevelGenerator {
 		BioLevel level;
 		if(personalizedSCL.isEmpty())
 			//level = new BioLevel(new File("standardbane.res"));
-			level = new BioLevel(320/2,true);
+			level = new BioLevel(320*4,true);
 		else
 			level = new BioLevel(320*2,false);
 		

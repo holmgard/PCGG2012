@@ -245,12 +245,13 @@ public class ScreenChunkLibrary {
 			return sc;
 		} else if (windowsIn != null){
 			//ScreenChunk sc = schunks.get(ind);
-			ScreenChunk sc = schunks.get(ind-1); //Christoffer hack
-			while (!windowsOverlap(windowsIn, sc.getInWindows())) {
+			//ScreenChunk sc = schunks.get(ind-1); //Christoffer hack
+			ScreenChunk sc = schunks.get(0); //Christoffer hack
+			/*while (!windowsOverlap(windowsIn, sc.getInWindows())) {
 				++ind;
 				ind %= schunks.size();
 				sc = schunks.get(ind);
-			}
+			}*/
 			return sc;
 		} else //Christoffer edit for first chunk in level 
 		{
