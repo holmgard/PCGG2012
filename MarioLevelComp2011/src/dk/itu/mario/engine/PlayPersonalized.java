@@ -20,7 +20,7 @@ public class PlayPersonalized {
 		    	//MarioComponent mario = new MarioComponent(640, 480,false);
 		    	MarioComponentRecording mario = new MarioComponentRecording(640, 480,true);
 		    	mario.isPersonalized = true;
-		    	BioLevelGenerator.personalizedSCL = "trainingSamples_20121212_231220.arff.res";
+		    	BioLevelGenerator.personalizedSCL = "trainingSamples_20121213_130207.arff.res";
 		    	
 		    	mario.biologgerPort = bioLoggerPort;
 		    	

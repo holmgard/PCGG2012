@@ -160,13 +160,29 @@ public class BioLevel extends Level {
 		Random random = new Random();
 		
 		int widthSoFar = 0;
+		
+		ScreenChunk lastsc = scl.getChunk( random.nextInt(scl.getNumOfChunks() ));
+		ScreenChunkWrapper newChunk = new ScreenChunkWrapper(widthSoFar, lastsc);
+		chunkLevel.add(newChunk);
+		widthSoFar += lastsc.getWidth();
+		for (int i = 0; i < widthSoFar; ++i)
+			chunkInd.add(newChunk);
+		
 		while(widthSoFar < width)
 		{
 			ScreenChunk chunk = scl.getChunk( random.nextInt(scl.getNumOfChunks() ));
-			ScreenChunkWrapper newChunk = new ScreenChunkWrapper(widthSoFar, chunk);
+			newChunk = new ScreenChunkWrapper(widthSoFar, chunk);
 			widthSoFar += chunk.getWidth();
 			chunkLevel.add(newChunk);
+			
+			//widthSoFar += lastsc.getWidth();
+			lastsc = chunk;
+			for (int i = 0; i < widthSoFar; ++i)
+				chunkInd.add(newChunk);
 		}
+		
+		chunkPosition = new ScreenChunkWrapper[chunkInd.size()]; 
+		chunkPosition = chunkInd.toArray(chunkPosition);
 		
 		return widthSoFar;
 	}

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import dk.itu.mario.level.generator.bio.BioLevel;
 import dk.itu.mario.level.generator.bio.Chunk;
 import dk.itu.mario.level.generator.bio.ScreenChunk;
 import dk.itu.mario.level.generator.bio.ScreenChunkLibrary;
@@ -23,7 +24,7 @@ public class LightstonePhysioAnalyzer {
 	 * @return
 	 */
 	
-	LevelScene level;
+	BioLevel level;
 	ArrayList<LightstoneInterpolatedSample> phasicSamples;
 	ArrayList<LightstoneInterpolatedSample> smoothedSamples;
 	ArrayList<LightstoneInterpolatedSample> interpolatedSamples;
@@ -160,6 +161,99 @@ public class LightstonePhysioAnalyzer {
 	
 	public String getFilename(){
 		return filename;
+	}
+	
+	public void saveTileData(List<ScreenChunkWrapper> screenChunks)
+	{		
+		BioLevel bioLevel = level;
+		
+		
+		
+		String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		StringBuilder outString = new StringBuilder();
+		
+		float[][] scMeans = new float[bioLevel.getScreenChunks().size()][2];
+		
+		int minTile = Integer.MAX_VALUE;
+		int maxTile = Integer.MIN_VALUE;
+		
+		for(LightstoneInterpolatedSample sample : normalizedSamples)
+		{
+			if(sample.getTile() < minTile)
+				minTile = sample.getTile();
+			if(sample.getTile() > maxTile)
+				maxTile = sample.getTile();
+		}
+		
+		
+		int latestSCId = bioLevel.getChunk(minTile).getId();
+		
+		List<ScreenChunkWrapper> scWrappers = bioLevel.getChunkLevel();
+		ArrayList<Integer> scEnds = new ArrayList<Integer>();
+		
+		int width = 0;
+		for(ScreenChunkWrapper wrapper : scWrappers)
+		{
+			width += wrapper.sc.getWidth();
+			scEnds.add(width);
+		}
+		
+		int scCounter = 0;
+		
+		for(int tile = minTile; tile < maxTile + 1; tile++)
+		{
+			if(scEnds.contains((Integer)tile)){
+				++scCounter;
+			}
+			
+			
+			float peak = Float.MIN_VALUE;
+			float sum = 0;
+			int count = 0;
+			for(LightstoneInterpolatedSample sample : normalizedSamples)
+			{
+				if(sample.getTile() == tile)
+				{
+					if(sample.getValue() > peak)
+						peak = sample.getValue();
+					sum += sample.getValue();
+					count++;
+				}
+			}
+			
+			
+			
+			if(count > 0)
+			{	
+				float mean = sum/(float)count;
+				scMeans[scCounter][0] += mean;
+				scMeans[scCounter][1] += 1.0f;
+				
+				String tileValues = tile + "\t" + peak + "\t" + mean + "\n";
+				outString.append(tileValues);
+			}
+		}
+		
+		
+		StringBuilder scMeansOut = new StringBuilder();
+		for(int i = 0; i < scMeans.length; i++)
+		{
+			scMeans[i][0] = scMeans[i][0]/scMeans[i][1];
+			scMeansOut.append(scMeans[i][0] + "\t" + scMeans[i][1] + "\n");
+		}
+		
+		try {
+			filename = "tilePhysioValues" + "_" + timestamp + ".txt";
+			FileWriter file = new FileWriter(new File(filename));
+			file.write(outString.toString());
+			file.close();
+			file = new FileWriter(new File("screenChunkPhysioValues_" + timestamp + ".txt"));
+			file.write(scMeansOut.toString());
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void saveChunkData(List<ScreenChunkWrapper> screenChunks)

@@ -127,7 +127,9 @@ public class LightstonePhysioLogger {
 		analyzer.smoothSamples();
 		analyzer.saveSamples();
 		List<ScreenChunkWrapper> scwl = level.getChunkLevel();
-		analyzer.saveChunkData(scwl);
+		analyzer.level = (BioLevel)level;
+		analyzer.saveTileData(scwl);
+		analyzer.saveChunkData(scwl); //CALL THIS AFTER SAVETILEDATA!!
 		filename = analyzer.getFilename();
 	}
 	
