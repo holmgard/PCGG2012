@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  11 DEC 2012 10:07
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  13 DEC 2012 20:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -172,7 +172,17 @@ Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen124
 \Gin@req@width=\dimen125
 )
-(./report.aux)
+(./report.aux
+
+LaTeX Warning: Label `fig:screenshot1' multiply defined.
+
+
+LaTeX Warning: Label `fig:screenshot1' multiply defined.
+
+
+LaTeX Warning: Label `fig:screenshot1' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
@@ -187,8 +197,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
-
-(/usr/local/texlive/2011/texmf-dist/tex/context/base/supp-pdf.mkii
+ (/usr/local/texlive/2011/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count116
 \scratchdimen=\dimen126
@@ -257,47 +266,109 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 [2]
-Overfull \hbox (3.71037pt too wide) in paragraph at lines 54--55
+
+LaTeX Warning: Reference `ideal' on page 3 undefined on input line 50.
+
+<idealGraph.png, id=14, 579.16376pt x 320.19624pt>
+File: idealGraph.png Graphic file (type png)
+ <use idealGraph.png>
+Package pdftex.def Info: idealGraph.png used on input line 53.
+(pdftex.def)             Requested size: 231.66139pt x 128.07622pt.
+
+Underfull \vbox (badness 1024) has occurred while \output is active []
+
+ [3 <./idealGraph.png>]
+Overfull \hbox (3.71037pt too wide) in paragraph at lines 66--67
 []\OT1/cmr/m/n/10 Additionally, we de-fined the con-cept of screen-chunks: con-
 fig-u-ra-tions of chunks
  []
 
-<screenshot1.pdf, id=14, 1142.2675pt x 940.51375pt>
-File: screenshot1.pdf Graphic file (type pdf)
- <use screenshot1.pdf>
-Package pdftex.def Info: screenshot1.pdf used on input line 59.
-(pdftex.def)             Requested size: 856.69853pt x 705.38359pt.
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no † in font cmr10!
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 77.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 77.
+[4]
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¦ in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¦ in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¦ in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¦ in font cmr10!
+ <p1.png, id=25, 946.53625pt x 580.1675pt>
+File: p1.png Graphic file (type png)
+ <use p1.png>
+Package pdftex.def Info: p1.png used on input line 135.
+(pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
 
-Overfull \hbox (509.575pt too wide) in paragraph at lines 59--60
+Overfull \hbox (31.48425pt too wide) in paragraph at lines 135--136
  [][] 
  []
 
+<p2.png, id=26, 946.53625pt x 580.1675pt>
+File: p2.png Graphic file (type png)
+ <use p2.png>
+Package pdftex.def Info: p2.png used on input line 141.
+(pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
 
-LaTeX Warning: Float too large for page by 178.99532pt on input line 62.
+Overfull \hbox (31.48425pt too wide) in paragraph at lines 141--142
+ [][] 
+ []
 
-(./report.bbl
+<p3.png, id=27, 946.53625pt x 580.1675pt>
+File: p3.png Graphic file (type png)
+ <use p3.png>
+Package pdftex.def Info: p3.png used on input line 147.
+(pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
+
+Overfull \hbox (31.48425pt too wide) in paragraph at lines 147--148
+ [][] 
+ []
+
+<p4.png, id=28, 946.53625pt x 580.1675pt>
+File: p4.png Graphic file (type png)
+ <use p4.png>
+Package pdftex.def Info: p4.png used on input line 153.
+(pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
+
+Overfull \hbox (31.48425pt too wide) in paragraph at lines 153--154
+ [][] 
+ []
+
+[5] [6 <./p1.png> <./p2.png>] [7 <./p3.png> <./p4.png>] (./report.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 5.
 
-) [3] [4 <./screenshot1.pdf>] (./report.aux) ) 
+) [8] (./report.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 1853 strings out of 493633
- 25473 string characters out of 3143378
- 87945 words of memory out of 3000000
- 5150 multiletter control sequences out of 15000+200000
- 5765 words of font info for 21 fonts, out of 3000000 for 9000
+ 1888 strings out of 493633
+ 25807 string characters out of 3143378
+ 88992 words of memory out of 3000000
+ 5175 multiletter control sequences out of 15000+200000
+ 7289 words of font info for 26 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 38i,7n,23p,1006b,227s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2011/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2011/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2011/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2011/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2011/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on report.pdf (4 pages, 157774 bytes).
+ 38i,9n,23p,1006b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
+usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/l
+ocal/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loca
+l/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+Output written on report.pdf (8 pages, 285829 bytes).
 PDF statistics:
- 48 PDF objects out of 1000 (max. 8388607)
- 32 compressed objects within 1 object stream
+ 70 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

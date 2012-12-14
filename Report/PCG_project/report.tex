@@ -45,25 +45,144 @@ The original Super Mario Brothers games featured levels that were hand crafted b
 Since every level is configured by individual components, or tiles, provides a prime opportunity for using procedural content generation to support or replace the human designer.
 
 \section{Methods}
+The overall purpose of the bio-level-generator (BLG) that we constructed was to produce levels that were capable of inducing particular patterns of arousal in the player. The ambition was to predict what arousal a particular level feature would induce in a particular player and structure the sequence of features to provide a personal roller-coaster-ride of arousal through a particular level. Ultimately, the solution should allow a designer to specify nothing more than the curve of arousal that she would like the player to experience and the level should be generated adaptively.
+
+For the current project we aimed to make our players have an experience illustrated by the curve in figure \ref{ideal}. This was our ideal curve for the current version of the level generator and would serve as the later point of reference for the level generator.
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{idealGraph.png}
+\caption{The intended - or ideal - arousal throughout the level}
+\label{fig:ideal}
+\end{figure}
+Thus the challenge was to provide a mapping between level features and player arousal. To enable this, we produced an experimental setup where each player would play two levels. The first would serve as a benchmark for establishing the player's arousal reponse to different level features. The second would use this information to generate the adapted level.
+
+\subsection{Screen-Chunks and Chunks}
 In order to procedurally generate levels for Mario we needed a method for configuring individual tiles into levels in a way that would motivate gameplay with varying degrees of complexity, with the underlying assumption that this would lead to varying degress of difficulty and hence engagement and arousal.
 
 Though levels are fundamentally configured of tiles, the individual tile is not necessarily the best level for describing the challenges that the player faces in the game. A tile is quickly traversed by Mario, and the difficulty of doing so can only be determined by looking at neighboring tiles.
 
-Therefore, we decided to understand particular configuration of tiles, or chunks of tiles, as the fundamental unit of challenges that the player faces in the game. The guiding principle for defining a chunk was to look at configurations of tiles that  necessitate the player to perform one action, or one combination of actions, to traverse the configuration: for instance jumping over a gap, or onto an enemy to kill it.
+Therefore, we decided to understand particular configuration of tiles, or chunks of tiles, as the fundamental unit of challenges that the player faces in the game. The guiding principle for defining a chunk was to look at configurations of tiles that necessitate the player to perform one action, or one combination of actions, to traverse the configuration: for instance jumping over a gap, or onto an enemy to kill it.
 
 Additionally, we defined the concept of screen-chunks: configurations of chunks that are close enough for the actions connected to the chunks to influence each other: E.g a jump over one chunk making Mario land near an enemy that he must kill or avoid.
 
-The concept is illustrated in the Figure \ref{fig:screenshot1}
+The fundamental principle of procedurally constructing a level was to connect screen-chunks until a desired level width was achieved. For each screen-chunk, windows for Mario's entry and exit were defined. The windows were required to overlap in neighboring screen-chunks.
+
+The chunks and screen-chunks were designed manually with a custom editor and compiled into a screen-chunk library. It fell to the human designer to ensure that chunks and screen-chunks were passable by the rules of the game. During the design process we tried to ensure a varity of complexity and difficulty in the library, though these evaluations were only based on the expertise of the designer.
+
+Each screen-chunk had a related weight that represented its assumed potential for generating arousal. For random levels this was ignored, while for adapted levels, this was used to select the order of screen-chunks.
+
+\subsubsection{Generating Screen-Chunk Weights}
+During playthrough of randomly generated levels, arousal responses (as expressed by skin conductivity levels from the player were continuosly sampled at a rate of 30Hz, and mapped to the corresponding screen-chunks.
+
+Before any attempts at adaptivity were done, two reference players were asked to play through a miltutude of randomly generated levels, constructing a dataset of 490 observations of arousal responses to screen-chunks distributed across the library. [INDSÆT INFO HER, HVIS VI GIDER] The observations were then used to train an artificial neural network regressor\footnote{A fully connected 40-3-2-1 trained for [HVOR MANGE EPOCHS] epochs} (ANN) to predict arousal values for the individual screen-chunks in the library.
+
+For sessions featuring adaptivity, further, personal, observations were gathered from the first playthrough of a random level. Then, they were used to further train the ANN from it's baseline state toward a personalized state.
+
+Finally, this new adapted ANN was used to predict personal weights for every screen-chunk in the library. This updated library then formed the basis for generating personal, adapted levels.
+
+\subsubsection{SCL sampling and treatment}
+The raw samples from of SCL levels were subjected to smoothing by a moving average to remove noise.
+
+\subsection{Experimental setup}
+
+A full play session was comprised of two games of the Mario. The during the first play session, the player was presented with a random level, during the second play session, the player was presented with a personalized level.
+
+In the first playthrough, physiological responses from the player were collected.
+Subsequently, as detailed in the following section, these measurements were used to construct a weight for each screen-chunk.
+Each weight represented the arousal that the related screen-chunk would be expected to induce in the player.
+The weights then informed the construction of the level for the second playthrough.
+
+
+
+
+For random level generation the weights were of course disregarded. For personal level generation they 
+
+
+
+The concept is illustrated in the Figure %\ref{fig:screenshot1}
+
+
+
+
+\subsubsection{Signal treatment}
+
+\subsubsection{Modeling with an artificial neural network}
+Neural netværks-træning -> nye chunk værdier
+
+\subsubsection{Intended results}
+
+Det sidste i metoden er den 'forventede graf'.
+
+
+
+\subsubsection{Classification}
+ifht. til sb-pcg paper
+Offline, necessary, parametrized(?), mix of stocahstic and deterministic, constructive (but based parameters from person)
+
+
+\subsection{Results}
+\subsubsection{Building the base model}
+Stastistics about the built model
+
+\subsubsection{User testing}
+Case baseret præsentation
+Learning runs - grafer
+Personalized runs - grafer
+
 \begin{figure}
 \centering
-\includegraphics[scale=0.75]{screenshot1.pdf}
-\caption{A placeholder for a screenshot}
+\includegraphics[scale=0.4]{p1.png}
+\caption{Player 1}
+\label{fig:screenshot1}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{p2.png}
+\caption{Player 2}
+\label{fig:screenshot1}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{p3.png}
+\caption{Player 3}
+\label{fig:screenshot1}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{p4.png}
+\caption{Player 4}
 \label{fig:screenshot1}
 \end{figure}
 
-\subsection{Results}
-
 \section{Discussion}
+Intro
+\subsubsection{Arousal-engagement assumptions}
+Is arousal the same thing as engagement - how do we discern between various kinds of arousal; we don't!
+\subsubsection{Signal noise}
+Movement artifacts
+\subsubsection{Response lag/screen chunk width}
+How long time does a response time. How long is drop-off of response.
+\subsubsection{Habituation/player learning}
+Skill, learning rate, fatigue
+\subsubsection{Player characteristics}
+Skill, day dependence, relevance of base model, 
+
+\section{Conclusion and future work}
+Some indications of correlation between expected responses and actual responses.
+
+Some problems in the paradigm.
+
+Insufficient number of observations in the dataset.
+
+More screenshunks would be preferable, but ties in with the size of the dataset.
+
+More advanced signal analysis; that can still run between individual play sessions! (
+
+Need s to be quick; is machine learning an option, really?)
+
+Is this a feasible way of doing PCG? Not commercially yet - will it ever be?
+
+Real-time learning and generation
 
 \bibliography{references}
 \end{document}
