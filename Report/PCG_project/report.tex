@@ -47,7 +47,7 @@ Since every level is configured by individual components, or tiles, provides a p
 \section{Methods}
 The overall purpose of the bio-level-generator (BLG) that we constructed was to produce levels that were capable of inducing particular patterns of arousal in the player. The ambition was to predict what arousal a particular level feature would induce in a particular player and structure the sequence of features to provide a personal roller-coaster-ride of arousal through a particular level. Ultimately, the solution should allow a designer to specify nothing more than the curve of arousal that she would like the player to experience and the level should be generated adaptively.
 
-For the current project we aimed to make our players have an experience illustrated by the curve in figure \ref{ideal}. This was our ideal curve for the current version of the level generator and would serve as the later point of reference for the level generator.
+For the current project we aimed to make our players have an experience illustrated by the curve in figure \ref{fig:ideal}. This was our ideal curve for the current version of the level generator and would serve as the later point of reference for the level generator.
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{idealGraph.png}
@@ -74,88 +74,59 @@ Each screen-chunk had a related weight that represented its assumed potential fo
 \subsubsection{Generating Screen-Chunk Weights}
 During playthrough of randomly generated levels, arousal responses (as expressed by skin conductivity levels from the player were continuosly sampled at a rate of 30Hz, and mapped to the corresponding screen-chunks.
 
-Before any attempts at adaptivity were done, two reference players were asked to play through a miltutude of randomly generated levels, constructing a dataset of 490 observations of arousal responses to screen-chunks distributed across the library. [INDSÆT INFO HER, HVIS VI GIDER] The observations were then used to train an artificial neural network regressor\footnote{A fully connected 40-3-2-1 trained for [HVOR MANGE EPOCHS] epochs} (ANN) to predict arousal values for the individual screen-chunks in the library.
+Before any attempts at adaptivity were done, two reference players were asked to play through a miltutude of randomly generated levels, constructing a dataset of 490 observations of arousal responses to screen-chunks distributed across the library. [INDSÆT INFO HER, HVIS VI GIDER] The observations were then used to train an artificial neural network regressor to predict arousal values for the individual screen-chunks in the library.
 
 For sessions featuring adaptivity, further, personal, observations were gathered from the first playthrough of a random level. Then, they were used to further train the ANN from it's baseline state toward a personalized state.
 
 Finally, this new adapted ANN was used to predict personal weights for every screen-chunk in the library. This updated library then formed the basis for generating personal, adapted levels.
 
 \subsubsection{SCL sampling and treatment}
-The raw samples from of SCL levels were subjected to smoothing by a moving average to remove noise.
+Preliminary work for the experiments was done using a wireless physiological measurement device called the Empatica E2.
+However, we experienced device failure over the course of the project and subsequently psychophysiological sampling was conducted with a Wild Divine Lightstone Biofeedback device which connects via USB.
 
-\subsection{Experimental setup}
+The Lighstone device is capable of sampling skin conductivity levels and blood volume pulse at a rate of 30Hz. Samples were taken from the three leftmost fingertips of the player's left hand. The controls of the Mario game were adapted to minimize the incovenience of wearing the Lightstone while playing. 
 
-A full play session was comprised of two games of the Mario. The during the first play session, the player was presented with a random level, during the second play session, the player was presented with a personalized level.
+Using the publicly available jlsm software package [reference here], we constructed  custom sampling functionality that allowed us for fusing real-time sample data with real-time gameplay data from the Mario Framework.
 
-In the first playthrough, physiological responses from the player were collected.
-Subsequently, as detailed in the following section, these measurements were used to construct a weight for each screen-chunk.
-Each weight represented the arousal that the related screen-chunk would be expected to induce in the player.
-The weights then informed the construction of the level for the second playthrough.
+Signals were sampled at the maximum rate available (30Hz). Before play start, the player went through a 30s period of baseline measurement viewing a blue screen with a countdown. Once the level started, each sample was tagged with the horisontal position of Mario in the level at sample time. 
 
+Though we were not able to precisely measure the latency from device sampling to in-game location mapping we assumed this to be low enough to be neglible. The width of the screenchunks allowed us to assume that most skin conductivity responses to in-game events, in a given screen, would be mapped to the response eleciting screen-chunk.
 
+After the playthrough, the raw samples from of SCL levels were subjected to smoothing by a simple moving average to remove noise from signal. The full signal, including the baseline, was then scaled to values between 0 and 1. Subsequently the mean SCL value for each screenchunk in the level was calculated, as well as the maximum value measured during time spent in that screen chunk.
 
+Finally, for each screenchunk that the player had experienced in the level, an observation was generated. Each observation consisted of the count of individual chunks in the screen-chunk, and the mean SCL value. These observations were then used as training examples for the ANN regressor, that in turn would be used to predict screen-chunk arousal induction potential.
 
-For random level generation the weights were of course disregarded. For personal level generation they 
+\subsection{Results}
+A number of network topologies were attempted. The best performing one was a 3-2 hidden layer topology, trained for 100.000 epochs. The ANN regressor exhibited a correlation coefficient of 0,3122 between expected an produced values and a relative absolute error of ca. 89\%. Though this performance was slightly discouragning, we proceeded to use the network for a pilot run of four user tests.
+Two of these players did not manage to complete the personalized levels, arguably because the generated level was unfit for their skill level.
+The two other players completed their personalized levels. Their arousal responses to the random and personalized levels are included in in figures \ref{fig:playerFirst} and \ref{fig:playerLast}.
 
+Since it was impossible to, within the scope of this project, to collect a data material suitable for extensive stastiscal analysis, we instead opted to present these preliminary results on a case-by-case basis.
 
+For the method to be considered succesful for this first pilot-run, we would require the curves of the personalized sessions to conform, at least to some extent, to the chosen ideal curve presented earlier in figure \ref{fig:ideal}.
 
-The concept is illustrated in the Figure %\ref{fig:screenshot1}
+While none of the signals correspond clearly to the curve we tried to induce, we find it worth noticing that both players exhibit spikes of arousal activity at the middle of the level, followed by drops in arousal, which are then followed by a second spike in activity at the end of the personalized level. However, we also see patterns of spikes completely seemingly unrelated to the desired arousal curve.
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{movieStar.png}
+\caption{Player I}
+\label{fig:playerFirst}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{nicklas.png}
+\caption{Player II}
+\label{fig:playerLast}
+\end{figure}
 
-
-
-\subsubsection{Signal treatment}
-
-\subsubsection{Modeling with an artificial neural network}
-Neural netværks-træning -> nye chunk værdier
-
-\subsubsection{Intended results}
-
-Det sidste i metoden er den 'forventede graf'.
+\section{Discussion}
 
 
 
 \subsubsection{Classification}
-ifht. til sb-pcg paper
+ifht. til sb-pcg  paper
 Offline, necessary, parametrized(?), mix of stocahstic and deterministic, constructive (but based parameters from person)
-
-
-\subsection{Results}
-\subsubsection{Building the base model}
-Stastistics about the built model
-
-\subsubsection{User testing}
-Case baseret præsentation
-Learning runs - grafer
-Personalized runs - grafer
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.4]{p1.png}
-\caption{Player 1}
-\label{fig:screenshot1}
-\end{figure}
-\begin{figure}
-\centering
-\includegraphics[scale=0.4]{p2.png}
-\caption{Player 2}
-\label{fig:screenshot1}
-\end{figure}
-\begin{figure}
-\centering
-\includegraphics[scale=0.4]{p3.png}
-\caption{Player 3}
-\label{fig:screenshot1}
-\end{figure}
-\begin{figure}
-\centering
-\includegraphics[scale=0.4]{p4.png}
-\caption{Player 4}
-\label{fig:screenshot1}
-\end{figure}
-
-\section{Discussion}
-Intro
 \subsubsection{Arousal-engagement assumptions}
 Is arousal the same thing as engagement - how do we discern between various kinds of arousal; we don't!
 \subsubsection{Signal noise}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  13 DEC 2012 20:23
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  15 DEC 2012 00:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -172,17 +172,7 @@ Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen124
 \Gin@req@width=\dimen125
 )
-(./report.aux
-
-LaTeX Warning: Label `fig:screenshot1' multiply defined.
-
-
-LaTeX Warning: Label `fig:screenshot1' multiply defined.
-
-
-LaTeX Warning: Label `fig:screenshot1' multiply defined.
-
-)
+(./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
@@ -197,7 +187,8 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
- (/usr/local/texlive/2011/texmf-dist/tex/context/base/supp-pdf.mkii
+
+(/usr/local/texlive/2011/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count116
 \scratchdimen=\dimen126
@@ -265,11 +256,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [1
 
 {/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2]
-
-LaTeX Warning: Reference `ideal' on page 3 undefined on input line 50.
-
-<idealGraph.png, id=14, 579.16376pt x 320.19624pt>
+[2] <idealGraph.png, id=14, 579.16376pt x 320.19624pt>
 File: idealGraph.png Graphic file (type png)
  <use idealGraph.png>
 Package pdftex.def Info: idealGraph.png used on input line 53.
@@ -285,90 +272,52 @@ fig-u-ra-tions of chunks
 
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no † in font cmr10!
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 77.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 77.
-[4]
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no ¦ in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no ¦ in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no ¦ in font cmr10!
-Missing character: There is no Ã in font cmr10!
-Missing character: There is no ¦ in font cmr10!
- <p1.png, id=25, 946.53625pt x 580.1675pt>
-File: p1.png Graphic file (type png)
- <use p1.png>
-Package pdftex.def Info: p1.png used on input line 135.
+[4] [5] <movieStar.png, id=26, 946.53625pt x 580.1675pt>
+File: movieStar.png Graphic file (type png)
+ <use movieStar.png>
+Package pdftex.def Info: movieStar.png used on input line 112.
 (pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
 
-Overfull \hbox (31.48425pt too wide) in paragraph at lines 135--136
+Overfull \hbox (31.48425pt too wide) in paragraph at lines 112--113
  [][] 
  []
 
-<p2.png, id=26, 946.53625pt x 580.1675pt>
-File: p2.png Graphic file (type png)
- <use p2.png>
-Package pdftex.def Info: p2.png used on input line 141.
+<nicklas.png, id=27, 946.53625pt x 580.1675pt>
+File: nicklas.png Graphic file (type png)
+ <use nicklas.png>
+Package pdftex.def Info: nicklas.png used on input line 118.
 (pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
 
-Overfull \hbox (31.48425pt too wide) in paragraph at lines 141--142
+Overfull \hbox (31.48425pt too wide) in paragraph at lines 118--119
  [][] 
  []
 
-<p3.png, id=27, 946.53625pt x 580.1675pt>
-File: p3.png Graphic file (type png)
- <use p3.png>
-Package pdftex.def Info: p3.png used on input line 147.
-(pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
 
-Overfull \hbox (31.48425pt too wide) in paragraph at lines 147--148
- [][] 
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<p4.png, id=28, 946.53625pt x 580.1675pt>
-File: p4.png Graphic file (type png)
- <use p4.png>
-Package pdftex.def Info: p4.png used on input line 153.
-(pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
-
-Overfull \hbox (31.48425pt too wide) in paragraph at lines 153--154
- [][] 
- []
-
-[5] [6 <./p1.png> <./p2.png>] [7 <./p3.png> <./p4.png>] (./report.bbl
+ [6 <./movieStar.png>] [7 <./nicklas.png>] (./report.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 5.
 
-) [8] (./report.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+) [8] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 1888 strings out of 493633
- 25807 string characters out of 3143378
- 88992 words of memory out of 3000000
- 5175 multiletter control sequences out of 15000+200000
- 7289 words of font info for 26 fonts, out of 3000000 for 9000
+ 1866 strings out of 493633
+ 25657 string characters out of 3143378
+ 87961 words of memory out of 3000000
+ 5160 multiletter control sequences out of 15000+200000
+ 5765 words of font info for 21 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 38i,9n,23p,1006b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
-usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
-r/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/l
-ocal/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loca
-l/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on report.pdf (8 pages, 285829 bytes).
+ 38i,7n,23p,1006b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2011/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmbx10.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx12.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx9.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr9.pfb>
+Output written on report.pdf (8 pages, 187388 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
- 42 compressed objects within 1 object stream
+ 58 PDF objects out of 1000 (max. 8388607)
+ 36 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
