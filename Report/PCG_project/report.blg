@@ -2,47 +2,52 @@ This is BibTeX, Version 0.99d (TeX Live 2011)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: report.aux
 The style file: splncs03.bst
-I found no \citation commands---while reading file report.aux
 Database file #1: references.bib
-You've used 0 entries,
+Warning--entry type for "sonypatent" isn't style-file defined
+--line 12 of file references.bib
+Warning--entry type for "wiivitality" isn't style-file defined
+--line 20 of file references.bib
+Warning--entry type for "ambinder2011" isn't style-file defined
+--line 82 of file references.bib
+You've used 9 entries,
             2785 wiz_defined-function locations,
-            583 strings with 4389 characters,
-and the built_in function-call counts, 22 in all, are:
-= -- 0
-> -- 0
-< -- 0
-+ -- 0
-- -- 0
-* -- 2
-:= -- 7
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
+            629 strings with 6100 characters,
+and the built_in function-call counts, 4022 in all, are:
+= -- 313
+> -- 123
+< -- 5
++ -- 52
+- -- 42
+* -- 229
+:= -- 538
+add.period$ -- 9
+call.type$ -- 9
+change.case$ -- 53
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 1
+cite$ -- 9
+duplicate$ -- 360
+empty$ -- 389
+format.name$ -- 46
+if$ -- 875
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 5
-num.names$ -- 0
-pop$ -- 0
+int.to.str$ -- 9
+missing$ -- 74
+newline$ -- 32
+num.names$ -- 18
+pop$ -- 162
 preamble$ -- 1
-purify$ -- 0
+purify$ -- 39
 quote$ -- 0
-skip$ -- 1
+skip$ -- 114
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
-text.length$ -- 0
+substring$ -- 178
+swap$ -- 173
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
+type$ -- 34
 warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 4
-(There was 1 error message)
+while$ -- 35
+width$ -- 10
+write$ -- 86
+(There were 3 warnings)

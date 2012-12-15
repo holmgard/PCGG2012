@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  15 DEC 2012 01:32
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  15 DEC 2012 03:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -259,13 +259,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [2] <idealGraph.png, id=14, 579.16376pt x 320.19624pt>
 File: idealGraph.png Graphic file (type png)
  <use idealGraph.png>
-Package pdftex.def Info: idealGraph.png used on input line 53.
+Package pdftex.def Info: idealGraph.png used on input line 54.
 (pdftex.def)             Requested size: 231.66139pt x 128.07622pt.
 
 Underfull \vbox (badness 1024) has occurred while \output is active []
 
  [3 <./idealGraph.png>]
-Overfull \hbox (3.71037pt too wide) in paragraph at lines 66--67
+Overfull \hbox (3.71037pt too wide) in paragraph at lines 67--68
 []\OT1/cmr/m/n/10 Additionally, we de-fined the con-cept of screen-chunks: con-
 fig-u-ra-tions of chunks
  []
@@ -275,20 +275,20 @@ Missing character: There is no † in font cmr10!
 [4] [5] <movieStar.png, id=26, 946.53625pt x 580.1675pt>
 File: movieStar.png Graphic file (type png)
  <use movieStar.png>
-Package pdftex.def Info: movieStar.png used on input line 112.
+Package pdftex.def Info: movieStar.png used on input line 113.
 (pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
 
-Overfull \hbox (31.48425pt too wide) in paragraph at lines 112--113
+Overfull \hbox (31.48425pt too wide) in paragraph at lines 113--114
  [][] 
  []
 
 <nicklas.png, id=27, 946.53625pt x 580.1675pt>
 File: nicklas.png Graphic file (type png)
  <use nicklas.png>
-Package pdftex.def Info: nicklas.png used on input line 118.
+Package pdftex.def Info: nicklas.png used on input line 119.
 (pdftex.def)             Requested size: 378.60779pt x 232.06288pt.
 
-Overfull \hbox (31.48425pt too wide) in paragraph at lines 118--119
+Overfull \hbox (31.48425pt too wide) in paragraph at lines 119--120
  [][] 
  []
 
@@ -299,23 +299,42 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¯ in font cmr10!
  [7 <./nicklas.png>]
-Overfull \hbox (0.37288pt too wide) in paragraph at lines 133--134
+Overfull \hbox (0.37288pt too wide) in paragraph at lines 135--136
 []\OT1/cmr/m/n/10 is well-grounded in the lit-er-a-ture, but
  []
 
 [8] (./report.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 26--28
+[]\OT1/cmr/m/n/9 Nintendo: Wii vi-tal-ity sen-sor - nin-tendo dan-mark,
+ []
 
-LaTeX Warning: Empty `thebibliography' environment on input line 5.
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--48
+[]\OT1/cmr/m/n/9 Siliconera: Sony patent re-veals bio-met-ric ps3 con-troller a
+nd hand-
+ []
+
+
+Underfull \hbox (badness 4378) in paragraph at lines 45--48
+\OT1/cmr/m/n/9 held sony patent re-veals bio-met-ric ps3 con-troller and hand-h
+eld (2011),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--48
+\OT1/cmr/m/n/9 http://www.siliconera.com/2011/11/01/sony-patent-reveals-biometr
+ic-ps3-
+ []
 
 ) [9] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 1868 strings out of 493633
- 25678 string characters out of 3143378
- 88961 words of memory out of 3000000
- 5161 multiletter control sequences out of 15000+200000
+ 1879 strings out of 493633
+ 25871 string characters out of 3143378
+ 88988 words of memory out of 3000000
+ 5172 multiletter control sequences out of 15000+200000
  6111 words of font info for 22 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 38i,7n,23p,1140b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,7n,23p,842b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2011/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmbx10.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmbx12.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsf
@@ -323,7 +342,7 @@ onts/cm/cmbx9.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmr10.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmr9.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmti10.pfb>
-Output written on report.pdf (9 pages, 201613 bytes).
+Output written on report.pdf (9 pages, 209687 bytes).
 PDF statistics:
  65 PDF objects out of 1000 (max. 8388607)
  41 compressed objects within 1 object stream

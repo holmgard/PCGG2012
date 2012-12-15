@@ -1,5 +1,49 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
+
+\bibitem{ambinder2011}
+Ambinder, M.: Biofeedback in gameplay: How valve measures physiology to
+  biofeedback in gameplay: How valve measures physiology to enhance gaming
+  experience (2011),
+  \url{http://www.valvesoftware.com/publications/2011/ValveBiofeedback-Ambinder.pdf}
+
+\bibitem{asteriadis2012towards}
+Asteriadis, S., Shaker, N., Karpouzis, K., Yannakakis, G.: Towards player's
+  affective and behavioral visual cues as drives to game adaptation. In:
+  Multimodal Corpora: How Should Multimodal Corpora Deal with the Situation?
+  Workshop Programme. p.~6 (2012)
+
+\bibitem{boucsein2011electrodermal}
+Boucsein, W.: Electrodermal activity. Springer (2011)
+
+\bibitem{martinez2011mining}
+Mart{\'\i}nez, H., Yannakakis, G.: Mining multimodal sequential patterns: a
+  case study on affect detection. In: Proceedings of the 13th international
+  conference on multimodal interfaces. pp. 3--10. ACM (2011)
+
+\bibitem{wiivitality}
+Nintendo: Wii vitality sensor - nintendo danmark,
+  \url{http://www.nintendo.dk/wii/tilbehoer/Wii-vitality-sensor}
+
+\bibitem{perez2011generic}
+Perez~Mart{\'\i}nez, H., Garbarino, M., Yannakakis, G.: Generic physiological
+  features as predictors of player experience. Affective Computing and
+  Intelligent Interaction pp. 267--276 (2011)
+
+\bibitem{picard1997affective}
+Picard, R.: Affective computing. The MIT Press, Cambridge (MA)  167,  170
+  (1997)
+
+\bibitem{ravaja2005psychophysiology}
+Ravaja, N., Saari, T., Laarni, J., Kallinen, K., Salminen, M., Holopainen, J.,
+  J{\"a}rvinen, A.: The psychophysiology of video gaming: Phasic emotional
+  responses to game events. In: Proceedings of the DiGRA conference Changing
+  views: worlds in play (2005)
+
+\bibitem{sonypatent}
+Siliconera: Sony patent reveals biometric ps3 controller and handheld sony
+  patent reveals biometric ps3 controller and handheld (2011),
+  \url{http://www.siliconera.com/2011/11/01/sony-patent-reveals-biometric-ps3-controller-and-handheld/}
 
 \end{thebibliography}
