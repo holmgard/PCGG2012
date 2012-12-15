@@ -1,11 +1,10 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 
 \bibitem{ambinder2011}
-Ambinder, M.: Biofeedback in gameplay: How valve measures physiology to
-  biofeedback in gameplay: How valve measures physiology to enhance gaming
-  experience (2011),
+Ambinder, M.: Biofeedback in gameplay: How valve measures physiology to enhance
+  gaming experience (2011),
   \url{http://www.valvesoftware.com/publications/2011/ValveBiofeedback-Ambinder.pdf}
 
 \bibitem{asteriadis2012towards}
@@ -16,6 +15,11 @@ Asteriadis, S., Shaker, N., Karpouzis, K., Yannakakis, G.: Towards player's
 
 \bibitem{boucsein2011electrodermal}
 Boucsein, W.: Electrodermal activity. Springer (2011)
+
+\bibitem{liu2009dynamic}
+Liu, C., Agrawal, P., Sarkar, N., Chen, S.: Dynamic difficulty adjustment in
+  computer games through real-time anxiety-based affective feedback. Intl.
+  Journal of Human--Computer Interaction  25(6),  506--529 (2009)
 
 \bibitem{martinez2011mining}
 Mart{\'\i}nez, H., Yannakakis, G.: Mining multimodal sequential patterns: a
@@ -40,6 +44,17 @@ Ravaja, N., Saari, T., Laarni, J., Kallinen, K., Salminen, M., Holopainen, J.,
   J{\"a}rvinen, A.: The psychophysiology of video gaming: Phasic emotional
   responses to game events. In: Proceedings of the DiGRA conference Changing
   views: worlds in play (2005)
+
+\bibitem{shaker2010towards}
+Shaker, N., Yannakakis, G., Togelius, J.: Towards automatic personalized
+  content generation for platform games. In: Proceedings of the AAAI Conference
+  on Artificial Intelligence and Interactive Digital Entertainment (AIIDE).
+  AAAI Press (2010)
+
+\bibitem{shaker2011feature}
+Shaker, N., Yannakakis, G., Togelius, J.: Feature analysis for modeling game
+  content quality. In: Computational Intelligence and Games (CIG), 2011 IEEE
+  Conference on. pp. 126--133. IEEE (2011)
 
 \bibitem{sonypatent}
 Siliconera: Sony patent reveals biometric ps3 controller and handheld sony

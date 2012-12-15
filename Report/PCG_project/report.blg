@@ -4,50 +4,50 @@ The top-level auxiliary file: report.aux
 The style file: splncs03.bst
 Database file #1: references.bib
 Warning--entry type for "sonypatent" isn't style-file defined
---line 12 of file references.bib
+--line 42 of file references.bib
 Warning--entry type for "wiivitality" isn't style-file defined
---line 20 of file references.bib
+--line 50 of file references.bib
 Warning--entry type for "ambinder2011" isn't style-file defined
---line 82 of file references.bib
-You've used 9 entries,
+--line 112 of file references.bib
+You've used 12 entries,
             2785 wiz_defined-function locations,
-            629 strings with 6100 characters,
-and the built_in function-call counts, 4022 in all, are:
-= -- 313
-> -- 123
-< -- 5
-+ -- 52
-- -- 42
-* -- 229
-:= -- 538
-add.period$ -- 9
-call.type$ -- 9
-change.case$ -- 53
+            648 strings with 6728 characters,
+and the built_in function-call counts, 5817 in all, are:
+= -- 468
+> -- 179
+< -- 8
++ -- 75
+- -- 62
+* -- 339
+:= -- 768
+add.period$ -- 14
+call.type$ -- 12
+change.case$ -- 76
 chr.to.int$ -- 0
-cite$ -- 9
-duplicate$ -- 360
-empty$ -- 389
-format.name$ -- 46
-if$ -- 875
+cite$ -- 12
+duplicate$ -- 517
+empty$ -- 548
+format.name$ -- 69
+if$ -- 1271
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 74
-newline$ -- 32
-num.names$ -- 18
-pop$ -- 162
+int.to.str$ -- 12
+missing$ -- 105
+newline$ -- 41
+num.names$ -- 24
+pop$ -- 221
 preamble$ -- 1
-purify$ -- 39
+purify$ -- 55
 quote$ -- 0
-skip$ -- 114
+skip$ -- 165
 stack$ -- 0
-substring$ -- 178
-swap$ -- 173
-text.length$ -- 5
+substring$ -- 281
+swap$ -- 260
+text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 34
+type$ -- 46
 warning$ -- 0
-while$ -- 35
-width$ -- 10
-write$ -- 86
+while$ -- 50
+width$ -- 14
+write$ -- 116
 (There were 3 warnings)
