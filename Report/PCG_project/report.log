@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  15 DEC 2012 00:32
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  15 DEC 2012 01:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -295,29 +295,38 @@ Overfull \hbox (31.48425pt too wide) in paragraph at lines 118--119
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6 <./movieStar.png>] [7 <./nicklas.png>] (./report.bbl
+ [6 <./movieStar.png>]
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¯ in font cmr10!
+ [7 <./nicklas.png>]
+Overfull \hbox (0.37288pt too wide) in paragraph at lines 133--134
+[]\OT1/cmr/m/n/10 is well-grounded in the lit-er-a-ture, but
+ []
+
+[8] (./report.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 5.
 
-) [8] (./report.aux) ) 
+) [9] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 1866 strings out of 493633
- 25657 string characters out of 3143378
- 87961 words of memory out of 3000000
- 5160 multiletter control sequences out of 15000+200000
- 5765 words of font info for 21 fonts, out of 3000000 for 9000
+ 1868 strings out of 493633
+ 25678 string characters out of 3143378
+ 88961 words of memory out of 3000000
+ 5161 multiletter control sequences out of 15000+200000
+ 6111 words of font info for 22 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 38i,7n,23p,1006b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,7n,23p,1140b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2011/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmbx10.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmbx12.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsf
 onts/cm/cmbx9.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmr10.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr9.pfb>
-Output written on report.pdf (8 pages, 187388 bytes).
+/cm/cmr9.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmti10.pfb>
+Output written on report.pdf (9 pages, 201613 bytes).
 PDF statistics:
- 58 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
+ 65 PDF objects out of 1000 (max. 8388607)
+ 41 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

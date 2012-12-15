@@ -97,7 +97,7 @@ After the playthrough, the raw samples from of SCL levels were subjected to smoo
 Finally, for each screenchunk that the player had experienced in the level, an observation was generated. Each observation consisted of the count of individual chunks in the screen-chunk, and the mean SCL value. These observations were then used as training examples for the ANN regressor, that in turn would be used to predict screen-chunk arousal induction potential.
 
 \subsection{Results}
-A number of network topologies were attempted. The best performing one was a 3-2 hidden layer topology, trained for 100.000 epochs. The ANN regressor exhibited a correlation coefficient of 0,3122 between expected an produced values and a relative absolute error of ca. 89\%. Though this performance was slightly discouragning, we proceeded to use the network for a pilot run of four user tests.
+A number of network topologies were attempted. The best performing one was a 3-2 hidden layer topology, trained for 100.000 epochs. The ANN regressor exhibited a correlation coefficient of 0,3122 between expected and produced values and a relative absolute error of ca. 89\%. Though this performance was slightly discouragning, we proceeded to use the network for a pilot run of four user tests.
 Two of these players did not manage to complete the personalized levels, arguably because the generated level was unfit for their skill level.
 The two other players completed their personalized levels. Their arousal responses to the random and personalized levels are included in in figures \ref{fig:playerFirst} and \ref{fig:playerLast}.
 
@@ -121,39 +121,26 @@ While none of the signals correspond clearly to the curve we tried to induce, we
 \end{figure}
 
 \section{Discussion}
-
-
-
-\subsubsection{Classification}
-ifht. til sb-pcg  paper
-Offline, necessary, parametrized(?), mix of stocahstic and deterministic, constructive (but based parameters from person)
-\subsubsection{Arousal-engagement assumptions}
-Is arousal the same thing as engagement - how do we discern between various kinds of arousal; we don't!
-\subsubsection{Signal noise}
-Movement artifacts
-\subsubsection{Response lag/screen chunk width}
-How long time does a response time. How long is drop-off of response.
-\subsubsection{Habituation/player learning}
-Skill, learning rate, fatigue
-\subsubsection{Player characteristics}
-Skill, day dependence, relevance of base model, 
+The specific produced solution for procedurally generating levels based on expected values suffered from a number of issues that would need to be further elucidated and/or improved in order to test for evidence for the efficacy of the model:
+\begin{description}
+\item [The signal treatment] employed in the solution was relatively naïve, and the literature suggests a mulitude of methods that would be worth trying to see if a more robust performance could be achieved. Drift correction, signal deconvolution, extraction of the phasic driver from the general SCL signal, artifact correction, and more advanced peak detection are all analytical procedures that could be added to the signal treatment. Additionally, employing a multimodal approach, fusing other ordered time series of signals with the SCL signal could vastly improve the efficiency of the approach. This could include other physiological mesaurements, such as heart rate variability, but could also include, e.g. series of data representing player inputs or game events. A third option for generating an auxillary signal could be to analyze the difficulty of the screen-chunks using an AI agent. Prior research indicates that this approach, combined with sequence mining, can yield useful results. Unfortunately, the implementation of such more advanced techniques fell outside of the scope of this project.
+\item [Classifier/regressor accuracy] could have been improved in several different manners. Obviously, a larger data set for the training the ANN would have been preferable. Other machine learning methods could have been applied, such as for instance NEAT or decision trees.
+\item [Training data sets] could have been larger, if we had ahd the opportunity to collect more data from additional respondents. The simplistic approach of training the baseline ANN on data from a single person is questionable approach, and should optimally be replaced with hours of gameplay from many different individuals.
+\item [The screen-chunk library] could have been extended to include more screen-chunks, in turn allowing for more variety in the configurations of individual chunks. This would in turn have provided us with the opportunity of generating a better training set for the ANN. However, in lieu of the low number of training observations that we could feasibly generate within the available time frame, this was not a practical issue.
+\end{description}
+At the general level, however, we must also question the appropriateness of the use of arousal data for off-line adaptive content generation.
+\begin{description}
+\item [The arousal-engagement assumption] is well-grounded in the literature, but for this particular experiment, we did not include any source of external ground truth, or even a second corroborating measure of player engagement.
+\item [Player skill and play style] are not taken directly into account in the current model, only to the extent that frustration from failing or overcoming great challenges would be expected to increase arousal. Working with a less tacit understanding of player skill and style, and using this as seperate vectors of information about the player's interaction, could probably be a valuable improvement to the overall approach.
+\item [Habituation/player learning] over the course of play is not addressed in the current model of generation. Specifically, one participant (Player II) told us, that he subjectively experienced a strong learning effect. While the screen-chunks at the end of the personalized level were indeed challenging to him when he first met them, he quickly learned to defeat the screen-chunk and hence stopped considering it challenging, likely invalidating the weights in the screen-chunk library (assuming they were ever valid) \emph{over the course of a single playthrough}. This in turn raises the point that it is possible that any practical implementation of this general approach for PCG should be continously monitoring, analysing, and updating its player model online, during play, rather than between sessions.
+\end{description}
 
 \section{Conclusion and future work}
-Some indications of correlation between expected responses and actual responses.
+This project presented here has been a first investigation into the use of physiological signals to drive adaptive content in platform games. The specific implementation was, due to constraints of time and scope, unable to produce sufficient evidence to to draw any robust conclusion about the usefulness of the approach. It should probably best be considered a feasibility study or a pre-pilot to a proper study, since it is limited by aspects of data treatment and sample sizes.
 
-Some problems in the paradigm.
+We do however consider the project to have shown that a more extensive study using the same principles, with the improvements outlined in the discussion above, could provide valuable knowledge on the usefulness of psychophysiology for the generation of content for platform games.
 
-Insufficient number of observations in the dataset.
-
-More screenshunks would be preferable, but ties in with the size of the dataset.
-
-More advanced signal analysis; that can still run between individual play sessions! (
-
-Need s to be quick; is machine learning an option, really?)
-
-Is this a feasible way of doing PCG? Not commercially yet - will it ever be?
-
-Real-time learning and generation
+In the case that robust measurement devices become integrated components in consumer-grade gaming equipment, it would not be far fetched that this vein of affective computing could find a use in commercial games, and this project demonstrates that it would be within the reach of even minor productions to test the usefulness of the approach for specific games.
 
 \bibliography{references}
 \end{document}
