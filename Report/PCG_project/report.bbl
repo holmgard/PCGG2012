@@ -2,16 +2,16 @@
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 
+\bibitem{empatica}
+Empatica - real time emotion tracking, \url{https://www.empatica.com/}
+
+\bibitem{wilddivine}
+Wild divine, \url{http://www.wilddivine.com/}
+
 \bibitem{ambinder2011}
 Ambinder, M.: Biofeedback in gameplay: How valve measures physiology to enhance
   gaming experience (2011),
   \url{http://www.valvesoftware.com/publications/2011/ValveBiofeedback-Ambinder.pdf}
-
-\bibitem{asteriadis2012towards}
-Asteriadis, S., Shaker, N., Karpouzis, K., Yannakakis, G.: Towards player's
-  affective and behavioral visual cues as drives to game adaptation. In:
-  Multimodal Corpora: How Should Multimodal Corpora Deal with the Situation?
-  Workshop Programme. p.~6 (2012)
 
 \bibitem{boucsein2011electrodermal}
 Boucsein, W.: Electrodermal activity. Springer (2011)
@@ -55,6 +55,10 @@ Shaker, N., Yannakakis, G., Togelius, J.: Towards automatic personalized
 Shaker, N., Yannakakis, G., Togelius, J.: Feature analysis for modeling game
   content quality. In: Computational Intelligence and Games (CIG), 2011 IEEE
   Conference on. pp. 126--133. IEEE (2011)
+
+\bibitem{marioai}
+Shaker, N., Togelius, J., Yannakakis, G.N.: 2012 mario ai championship - level
+  generation track, \url{http://www.marioai.org/LevelGeneration}
 
 \bibitem{sonypatent}
 Siliconera: Sony patent reveals biometric ps3 controller and handheld sony
